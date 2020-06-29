@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProvinceSeeder extends Seeder
 {
@@ -11,6 +12,17 @@ class ProvinceSeeder extends Seeder
      */
     public function run()
     {
-        //
+      DB::table('provinces')->insert([
+        [
+          'name' => 'Centro',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'Lengupa',
+          'created_at' => now(),
+          'updated_at' => now()
+        ]
+      ]);
     }
 }
