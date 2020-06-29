@@ -1,31 +1,31 @@
 created:
-    - database/migrations/2020_06_29_173744_create_rols_table.php
-    - database/migrations/2020_06_29_173745_create_phases_table.php
-    - database/migrations/2020_06_29_173746_create_provinces_table.php
-    - database/migrations/2020_06_29_173747_create_municipalities_table.php
-    - database/migrations/2020_06_29_173748_create_tracings_table.php
-    - database/migrations/2020_06_29_173749_create_production_lines_table.php
-    - database/migrations/2020_06_29_173750_create_activities_table.php
+    - database/migrations/2020_06_29_175859_create_rols_table.php
+    - database/migrations/2020_06_29_175900_create_phases_table.php
+    - database/migrations/2020_06_29_175901_create_provinces_table.php
+    - database/migrations/2020_06_29_175902_create_municipalities_table.php
+    - database/migrations/2020_06_29_175903_create_production_lines_table.php
+    - database/migrations/2020_06_29_175904_create_tracings_table.php
+    - database/migrations/2020_06_29_175905_create_activities_table.php
     - app/Rol.php
     - app/Phase.php
     - app/Province.php
     - app/Municipality.php
-    - app/Tracing.php
     - app/ProductionLine.php
+    - app/Tracing.php
     - app/Activity.php
     - database/factories/RolFactory.php
     - database/factories/PhaseFactory.php
     - database/factories/ProvinceFactory.php
     - database/factories/MunicipalityFactory.php
-    - database/factories/TracingFactory.php
     - database/factories/ProductionLineFactory.php
+    - database/factories/TracingFactory.php
     - database/factories/ActivityFactory.php
 models:
-    User: {  }
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, state: 'boolean default:1', remember_token: 'string:100 nullable', rol_id: 'biginteger unsigned' }
     Rol: { name: string, description: string }
     Phase: { name: string }
     Province: { name: string }
     Municipality: { name: string, province_id: id, phase_id: id }
-    Tracing: { zone: string, producer: text, identification: string, phone: string, municipality_id: id, productionline_id: id, user_id: id }
     ProductionLine: { name: string }
-    Activity: { name: text, date_performed: date, employees: integer, product: 'string nullable', quantity: 'decimal nullable', measure_type: string, description: 'text nullable', tracing_id: id }
+    Tracing: { zone: string, producer: text, identification: string, phone: string, municipality_id: id, production_line_id: id, user_id: id }
+    Activity: { name: text, date_performed: date, employees: integer, product: 'string nullable', quantity: 'decimal nullable', measure_type: string, description: 'text nullable', attachments: 'text nullable', tracing_id: id }

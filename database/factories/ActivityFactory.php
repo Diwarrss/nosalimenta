@@ -14,6 +14,7 @@ $factory->define(Activity::class, function (Faker $faker) {
         'quantity' => $faker->randomFloat(0, 0, 9999999999.),
         'measure_type' => $faker->word,
         'description' => $faker->text,
+        'images' => $faker->text,
         'tracing_id' => factory(\App\Tracing::class),
     ];
 });

@@ -12,7 +12,7 @@ $factory->define(Tracing::class, function (Faker $faker) {
         'identification' => $faker->word,
         'phone' => $faker->phoneNumber,
         'municipality_id' => factory(\App\Municipality::class),
-        'productionline_id' => factory(\App\Productionline::class),
+        'production_line_id' => factory(\App\ProductionLine::class),
         'user_id' => factory(\App\User::class),
     ];
 });

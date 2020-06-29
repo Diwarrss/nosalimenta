@@ -28,5 +28,6 @@ models:
     quantity: decimal nullable
     measure_type: string
     description: text nullable
+    images: text nullable
     tracing_id: id
 

@@ -22,6 +22,7 @@ class CreateActivitiesTable extends Migration
             $table->decimal('quantity')->nullable();
             $table->string('measure_type');
             $table->text('description')->nullable();
+            $table->text('images')->nullable();
             $table->foreignId('tracing_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

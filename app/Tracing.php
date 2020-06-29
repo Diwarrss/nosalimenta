@@ -21,7 +21,7 @@ class Tracing extends Model
     protected $casts = [
         'id' => 'integer',
         'municipality_id' => 'integer',
-        'productionline_id' => 'integer',
+        'production_line_id' => 'integer',
         'user_id' => 'integer',
     ];
 
@@ -31,9 +31,9 @@ class Tracing extends Model
         return $this->belongsTo(\App\Municipality::class);
     }
 
-    public function productionline()
+    public function productionLine()
     {
-        return $this->belongsTo(\App\Productionline::class);
+        return $this->belongsTo(\App\ProductionLine::class);
     }
 
     public function user()
