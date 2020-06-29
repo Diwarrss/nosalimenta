@@ -1,0 +1,14 @@
+models:
+  Roll:
+    name: string
+    description: string
+  Phase:
+    name: string
+  Province:
+    name: string
+  Municipality:
+    name: string
+    province_id: id
+    phase_id: id
+  Tracing:
+
