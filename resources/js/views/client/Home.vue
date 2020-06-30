@@ -1,0 +1,191 @@
+<template>
+  <div class="col-md-12">
+    <!-- Options -->
+    <section>
+      <button class="btn btn-primary" @click.prevent="changeForm(true)">Crear Seguimiento</button>
+      <button class="btn btn-primary" @click.prevent="changeForm(false)">Agregar Actividad</button>
+    </section>
+    <!-- Show forms -->
+    <section class="my-3">
+      <div class="row">
+        <div v-if="showActivity" class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              Crear Seguimiento
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="inputProvince">Provincia</label>
+                    <select v-model="formCreate.province_id" id="inputProvince" class="form-control" @change="getMunicipalities()">
+                      <option selected value="">Seleccionar...</option>
+                      <option :value="item.id" v-for="(item, index) in allProvinces" :key="index">
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="inputMunicipality">Municipio</label>
+                    <select v-model="formCreate.municipality_id" id="inputMunicipality" class="form-control">
+                      <option selected value="">Seleccionar...</option>
+                      <option :value="item.id" v-for="(item, index) in allMunicipalities" :key="index">
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="inputZone">Vereda</label>
+                    <input v-model="formCreate.zone" @input="formCreate.zone = $event.target.value.toUpperCase()" type="text" class="form-control" id="inputZone">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="inputIdent">No. Identificación</label>
+                    <input v-model="formCreate.identification" type="text" class="form-control" id="inputIdent">
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label class="font-weight-bold" for="inputName">Nombres y Apellidos <span class="font-weight-light">(Productor)</span></label>
+                    <input v-model="formCreate.producer" @input="formCreate.producer = $event.target.value.toUpperCase()" type="text" class="form-control" id="inputName">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label class="font-weight-bold" for="inputphone">Celular</label>
+                    <input v-model="formCreate.phone" type="text" class="form-control" id="inputphone">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="inputProdLine">Linea de produccion</label>
+                    <select v-model="formCreate.production_line_id" id="inputProdLine" class="form-control">
+                      <option selected value="">Seleccionar...</option>
+                      <option :value="item.id" v-for="(item, index) in allProdLines" :key="index">
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer text-right">
+              <button @click.prevent="saveTracing" class="btn btn-success">Guardar</button>
+            </div>
+          </div>
+        </div>
+        <div v-else class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              Agregar Actividad
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="inputProvince">Seguimiento</label>
+                    <!-- <v-select
+                      @input="selectTracing(tracing)"
+                      :options="allTracings"
+                      label="identification"
+                      placeholder="Seleccionar Productor"
+                      v-model="tracing"
+                      class="vs_select_custom"
+                      >
+                      <template v-slot:option="option">
+                        {{ option.identification }} - {{option.producer}}
+                      </template>
+                      <div slot="no-options">No hay Resultados!</div>
+                    </v-select> -->
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label class="font-weight-bold" for="activity">Actividad</label>
+                    <select id="activity" class="form-control">
+                      <option selected>Seleccionar...</option>
+                      <option>...</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="font-weight-bold" for="date">Fecha</label>
+                    <input class="form-control" type="date" id="date">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer text-right">
+              <button type="submit" class="btn btn-success">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      showActivity: true,
+      tracing: '',
+      formCreate:{
+        province_id: '',
+        municipality_id: '',
+        zone: '',
+        producer: '',
+        identification: '',
+        phone: '',
+        production_line_id: ''
+      },
+      allMunicipalities: []
+    }
+  },
+  computed: {
+    allTracings(){
+      return this.$store.state.allTracings
+    },
+    allProvinces(){
+      return this.$store.state.allProvinces
+    },
+    allProdLines(){
+      return this.$store.state.allProdLines
+    }
+  },
+  created() {
+    this.$store.dispatch('getProvinces')
+    this.$store.dispatch('getProdLines')
+  },
+  methods: {
+    changeForm(value){
+      this.showActivity = value
+    },
+    saveTracing(){
+      axios.post('saveTracing', this.formCreate)
+      .then(res => {
+        this.$swal({
+          position: 'top',
+          icon: 'success',
+          title: res.data.message,
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar'
+          //timer: 1500
+        })
+        console.log(res)
+      })
+      .catch(err => {
+        console.error(err);
+      })
+    },
+    getMunicipalities(){
+      let me = this
+      me.formCreate.municipality_id = ""
+      axios.get('municipalities', {
+        params: {
+          id: me.formCreate.province_id
+        }
+      })
+      .then(res => {
+        me.allMunicipalities = res.data
+        console.log(res);
+      })
+    }
+  },
+}
+</script>
+<style lang="scss">
+  .vs_select_custom .vs__dropdown-toggle {
+    height: calc(1.6em + 0.75rem + 2px);
+  }
+</style>

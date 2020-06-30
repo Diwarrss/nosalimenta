@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Province;
 use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
@@ -13,7 +14,7 @@ class ProvinceController extends Controller
      */
     public function index()
     {
-        //
+      return Province::with('provinMuni')->get();
     }
 
     /**

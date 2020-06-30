@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ProductionLine;
 use Illuminate\Http\Request;
 
 class ProductionLineController extends Controller
@@ -13,7 +14,7 @@ class ProductionLineController extends Controller
      */
     public function index()
     {
-        //
+      return ProductionLine::all();
     }
 
     /**

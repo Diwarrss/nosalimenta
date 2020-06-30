@@ -12,11 +12,21 @@ class RolSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('rols')->insert([
-        'name' => 'Administrador',
-        'description' => 'Super Usuario',
-        'created_at' => now(),
-        'updated_at' => now()
-      ]);
+      DB::table('rols')->insert(
+        [
+          [
+            'name' => 'Administrador',
+            'description' => 'Super Usuario',
+            'created_at' => now(),
+            'updated_at' => now()
+          ],
+          [
+            'name' => 'Cliente',
+            'description' => 'Usuario responsable de los seguimientos.',
+            'created_at' => now(),
+            'updated_at' => now()
+          ],
+        ]
+      );
     }
 }

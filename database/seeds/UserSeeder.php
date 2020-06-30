@@ -13,14 +13,27 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('users')->insert([
-        'name' => 'Diego Vargas',
-        'email' => 'diego@soho.cl',
-        'password' => Hash::make('123456789'),
-        'rol_id' => '1',
-        'state' => true,
-        'created_at' => now(),
-        'updated_at' => now()
-      ]);
+      DB::table('users')->insert(
+        [
+          [
+            'name' => 'Diego Vargas',
+            'email' => 'diego@soho.cl',
+            'password' => Hash::make('123456789'),
+            'rol_id' => '1',
+            'state' => true,
+            'created_at' => now(),
+            'updated_at' => now()
+          ],
+          [
+            'name' => 'Tiwar Pinzon',
+            'email' => 'tiwar@soho.cl',
+            'password' => Hash::make('123456789'),
+            'rol_id' => '2',
+            'state' => true,
+            'created_at' => now(),
+            'updated_at' => now()
+          ]
+        ]
+      );
     }
 }

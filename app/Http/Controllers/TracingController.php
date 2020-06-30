@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Tracing;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TracingController extends Controller
 {
@@ -13,17 +17,10 @@ class TracingController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+      if (Auth::user()->rol_id === 1) {
+        return Tracing::all();
+      }
+      return Tracing::where('user_id', Auth::user()->id)->get();
     }
 
     /**
@@ -34,7 +31,24 @@ class TracingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      if (!$request->ajax()) return redirect('/');
+
+      try {
+        //usaremos transacciones por si surge un error durante el proceso
+        DB::beginTransaction();
+
+          $data = $request->all();
+          $data['user_id'] = Auth::user()->id;
+          $pin = Tracing::create($data);
+          DB::commit(); //commit de la transaccion
+
+          return response()->json([
+            'message' => 'Registro guardado con éxito',
+            'data' => $pin
+          ], 201);
+        } catch (Exception $e) {
+          DB::rollBack(); //si hay error no ejecute la transaccion
+        }
     }
 
     /**

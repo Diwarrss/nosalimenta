@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Municipality;
 use Illuminate\Http\Request;
 
 class MunicipalityController extends Controller
@@ -11,9 +12,9 @@ class MunicipalityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+      return Municipality::where('province_id', $request->id)->get();
     }
 
     /**
