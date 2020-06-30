@@ -2036,10 +2036,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      showActivity: true,
+      showActivity: false,
       tracing: '',
       formCreate: {
         province_id: '',
@@ -2050,7 +2068,13 @@ __webpack_require__.r(__webpack_exports__);
         phone: '',
         production_line_id: ''
       },
-      allMunicipalities: []
+      allMunicipalities: [],
+      formActivity: {
+        tracing_id: "",
+        activity_id: "",
+        date: "",
+        descr: ""
+      }
     };
   },
   computed: {
@@ -2060,12 +2084,16 @@ __webpack_require__.r(__webpack_exports__);
     allProvinces: function allProvinces() {
       return this.$store.state.allProvinces;
     },
+    allActivities: function allActivities() {
+      return this.$store.state.allActivities;
+    },
     allProdLines: function allProdLines() {
       return this.$store.state.allProdLines;
     }
   },
   created: function created() {
     this.$store.dispatch('getProvinces');
+    this.$store.dispatch('getActivities');
     this.$store.dispatch('getProdLines');
   },
   methods: {
@@ -81295,9 +81323,7 @@ var render = function() {
         _vm.showActivity
           ? _c("div", { staticClass: "col-md-12" }, [
               _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-header" }, [
-                  _vm._v("\n            Crear Seguimiento\n          ")
-                ]),
+                _vm._m(0),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
                   _c("form", [
@@ -81527,7 +81553,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group col-md-5" }, [
-                        _vm._m(0),
+                        _vm._m(1),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -81681,17 +81707,195 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Guardar")]
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-floppy-o",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v(" Guardar")
+                    ]
                   )
                 ])
               ])
             ])
-          : _c("div", { staticClass: "col-md-12" }, [_vm._m(1)])
+          : _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("form", [
+                    _c("div", { staticClass: "form-row" }, [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-8" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "font-weight-bold",
+                            attrs: { for: "activity" }
+                          },
+                          [_vm._v("Actividad")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formActivity.activity_id,
+                                expression: "formActivity.activity_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "activity" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.formActivity,
+                                  "activity_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { selected: "", value: "" } },
+                              [_vm._v("Seleccionar...")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.allActivities, function(item, index) {
+                              return _c(
+                                "option",
+                                { key: index, domProps: { value: item.id } },
+                                [
+                                  _vm._v(
+                                    "\n                      " +
+                                      _vm._s(item.name) +
+                                      "\n                    "
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "font-weight-bold",
+                            attrs: { for: "date" }
+                          },
+                          [_vm._v("Fecha")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.formActivity.date,
+                              expression: "formActivity.date"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date", id: "date" },
+                          domProps: { value: _vm.formActivity.date },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.formActivity,
+                                "date",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-md-12" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "font-weight-bold",
+                            attrs: { for: "inputphone" }
+                          },
+                          [_vm._v("Descrpción")]
+                        ),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.formActivity.descr,
+                              expression: "formActivity.descr"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "imputdesc", cols: "12", rows: "3" },
+                          domProps: { value: _vm.formActivity.descr },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.formActivity,
+                                "descr",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _vm._m(5)
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(6)
+              ])
+            ])
       ])
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", {
+        staticClass: "fa fa-list-alt",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Crear Seguimiento\n          ")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -81711,68 +81915,79 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v("\n            Agregar Actividad\n          ")
-      ]),
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", {
+        staticClass: "fa fa-list-ol",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Agregar Actividad\n          ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-4" }, [
+      _c(
+        "label",
+        { staticClass: "font-weight-bold", attrs: { for: "inputProvince" } },
+        [_vm._v("Seguimiento")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-2" }, [
+      _c(
+        "label",
+        { staticClass: "font-weight-bold", attrs: { for: "inputdose" } },
+        [_vm._v("Dosis")]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("form", [
-          _c("div", { staticClass: "form-row" }, [
-            _c("div", { staticClass: "form-group col-md-4" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "font-weight-bold",
-                  attrs: { for: "inputProvince" }
-                },
-                [_vm._v("Seguimiento")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group col-md-8" }, [
-              _c(
-                "label",
-                { staticClass: "font-weight-bold", attrs: { for: "activity" } },
-                [_vm._v("Actividad")]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                { staticClass: "form-control", attrs: { id: "activity" } },
-                [
-                  _c("option", { attrs: { selected: "" } }, [
-                    _vm._v("Seleccionar...")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("...")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group col-md-4" }, [
-              _c(
-                "label",
-                { staticClass: "font-weight-bold", attrs: { for: "date" } },
-                [_vm._v("Fecha")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "date", id: "date" }
-              })
-            ])
-          ])
-        ])
-      ]),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", id: "inputdose" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group col-md-1" }, [
+      _c(
+        "label",
+        { staticClass: "font-weight-bold", attrs: { for: "inputunity" } },
+        [_vm._v("Unidad")]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "card-footer text-right" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-success", attrs: { type: "submit" } },
-          [_vm._v("Agregar")]
-        )
+      _c("select", { staticClass: "form-control", attrs: { id: "unity" } }, [
+        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("g")]),
+        _vm._v(" "),
+        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("L")]),
+        _vm._v(" "),
+        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("Kg")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-footer text-right" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [
+          _c("i", {
+            staticClass: "fa fa-plus-square",
+            attrs: { "aria-hidden": "true" }
+          }),
+          _vm._v(" Agregar")
+        ]
+      )
     ])
   }
 ]
@@ -104546,11 +104761,15 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
   state: {
     allProvinces: {},
     allTracings: {},
+    allActivities: {},
     allProdLines: {}
   },
   mutations: {
     setProvinces: function setProvinces(state, data) {
       state.allProvinces = data;
+    },
+    setActivities: function setActivities(state, data) {
+      state.allActivities = data;
     },
     setProdLines: function setProdLines(state, data) {
       state.allProdLines = data;
@@ -104614,6 +104833,35 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
       }
 
       return getProdLines;
+    }(),
+    getActivities: function () {
+      var _getActivities = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref3) {
+        var commit, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref3.commit;
+                _context3.next = 3;
+                return axios.get('activities');
+
+              case 3:
+                data = _context3.sent;
+                commit('setActivities', data.data);
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function getActivities(_x3) {
+        return _getActivities.apply(this, arguments);
+      }
+
+      return getActivities;
     }()
   },
   getters: {}

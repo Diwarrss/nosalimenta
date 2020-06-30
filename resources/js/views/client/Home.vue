@@ -11,7 +11,7 @@
         <div v-if="showActivity" class="col-md-12">
           <div class="card">
             <div class="card-header">
-              Crear Seguimiento
+              <i class="fa fa-list-alt" aria-hidden="true"></i> Crear Seguimiento
             </div>
             <div class="card-body">
               <form>
@@ -63,14 +63,14 @@
               </form>
             </div>
             <div class="card-footer text-right">
-              <button @click.prevent="saveTracing" class="btn btn-success">Guardar</button>
+              <button @click.prevent="saveTracing" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
             </div>
           </div>
         </div>
         <div v-else class="col-md-12">
           <div class="card">
             <div class="card-header">
-              Agregar Actividad
+              <i class="fa fa-list-ol" aria-hidden="true"></i> Agregar Actividad
             </div>
             <div class="card-body">
               <form>
@@ -93,20 +93,38 @@
                   </div>
                   <div class="form-group col-md-8">
                     <label class="font-weight-bold" for="activity">Actividad</label>
-                    <select id="activity" class="form-control">
-                      <option selected>Seleccionar...</option>
-                      <option>...</option>
+                    <select v-model="formActivity.activity_id" id="activity" class="form-control">
+                      <option selected value="">Seleccionar...</option>
+                      <option :value="item.id" v-for="(item, index) in allActivities" :key="index">
+                        {{item.name}}
+                      </option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">
                     <label class="font-weight-bold" for="date">Fecha</label>
-                    <input class="form-control" type="date" id="date">
+                    <input v-model="formActivity.date" class="form-control" type="date" id="date">
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label class="font-weight-bold" for="inputphone">Descrpción</label>
+                    <textarea v-model="formActivity.descr" class="form-control" id="imputdesc" cols="12" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label class="font-weight-bold" for="inputdose">Dosis</label>
+                    <input type="text" class="form-control" id="inputdose">
+                  </div>
+                  <div class="form-group col-md-1">
+                    <label class="font-weight-bold" for="inputunity">Unidad</label>
+                    <select id="unity" class="form-control">
+                      <option selected value="">g</option>
+                      <option selected value="">L</option>
+                      <option selected value="">Kg</option>
+                    </select>
                   </div>
                 </div>
               </form>
             </div>
             <div class="card-footer text-right">
-              <button type="submit" class="btn btn-success">Agregar</button>
+              <button type="submit" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Agregar</button>
             </div>
           </div>
         </div>
@@ -118,7 +136,7 @@
 export default {
   data() {
     return {
-      showActivity: true,
+      showActivity: false,
       tracing: '',
       formCreate:{
         province_id: '',
@@ -129,7 +147,13 @@ export default {
         phone: '',
         production_line_id: ''
       },
-      allMunicipalities: []
+      allMunicipalities: [],
+      formActivity:{
+        tracing_id: "",
+        activity_id: "",
+        date: "",
+        descr: "",
+      }
     }
   },
   computed: {
@@ -139,12 +163,16 @@ export default {
     allProvinces(){
       return this.$store.state.allProvinces
     },
+    allActivities(){
+      return this.$store.state.allActivities
+    },
     allProdLines(){
       return this.$store.state.allProdLines
     }
   },
   created() {
     this.$store.dispatch('getProvinces')
+    this.$store.dispatch('getActivities')
     this.$store.dispatch('getProdLines')
   },
   methods: {
