@@ -14,12 +14,62 @@ class ProvinceSeeder extends Seeder
     {
       DB::table('provinces')->insert([
         [
-          'name' => 'Centro',
+          'name' => 'CENTRO',
           'created_at' => now(),
           'updated_at' => now()
         ],
         [
-          'name' => 'Lengupa',
+          'name' => 'LENGUPA',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'SUGAMUXI',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'GUTIERREZ',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'MARQUEZ',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'NEIRA',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'RICAURTE',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'NORTE',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'OCCIDENTE',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'ORIENTE',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'TUNDAMA',
+          'created_at' => now(),
+          'updated_at' => now()
+        ],
+        [
+          'name' => 'VALDERRAMA',
           'created_at' => now(),
           'updated_at' => now()
         ]

@@ -1,11 +1,12 @@
 created:
-    - database/migrations/2020_06_29_175859_create_rols_table.php
-    - database/migrations/2020_06_29_175900_create_phases_table.php
-    - database/migrations/2020_06_29_175901_create_provinces_table.php
-    - database/migrations/2020_06_29_175902_create_municipalities_table.php
-    - database/migrations/2020_06_29_175903_create_production_lines_table.php
-    - database/migrations/2020_06_29_175904_create_tracings_table.php
-    - database/migrations/2020_06_29_175905_create_activities_table.php
+    - database/migrations/2020_06_29_183713_create_rols_table.php
+    - database/migrations/2020_06_29_183714_create_phases_table.php
+    - database/migrations/2020_06_29_183715_create_provinces_table.php
+    - database/migrations/2020_06_29_183716_create_municipalities_table.php
+    - database/migrations/2020_06_29_183717_create_production_lines_table.php
+    - database/migrations/2020_06_29_183718_create_tracings_table.php
+    - database/migrations/2020_06_29_183719_create_activities_table.php
+    - database/migrations/2020_06_29_183720_create_developed_activities_table.php
     - app/Rol.php
     - app/Phase.php
     - app/Province.php
@@ -13,6 +14,7 @@ created:
     - app/ProductionLine.php
     - app/Tracing.php
     - app/Activity.php
+    - app/DevelopedActivitie.php
     - database/factories/RolFactory.php
     - database/factories/PhaseFactory.php
     - database/factories/ProvinceFactory.php
@@ -20,12 +22,14 @@ created:
     - database/factories/ProductionLineFactory.php
     - database/factories/TracingFactory.php
     - database/factories/ActivityFactory.php
+    - database/factories/DevelopedActivitieFactory.php
 models:
-    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, state: 'boolean default:1', remember_token: 'string:100 nullable', rol_id: 'biginteger unsigned' }
+    User: { name: string, email: 'string:130', email_verified_at: 'datetime nullable', password: string, state: 'boolean default:1', remember_token: 'string:100 nullable', rol_id: 'biginteger unsigned' }
     Rol: { name: string, description: string }
     Phase: { name: string }
     Province: { name: string }
     Municipality: { name: string, province_id: id, phase_id: id }
     ProductionLine: { name: string }
     Tracing: { zone: string, producer: text, identification: string, phone: string, municipality_id: id, production_line_id: id, user_id: id }
-    Activity: { name: text, date_performed: date, employees: integer, product: 'string nullable', quantity: 'decimal nullable', measure_type: string, description: 'text nullable', attachments: 'text nullable', tracing_id: id }
+    Activity: { name: string }
+    DevelopedActivitie: { name: text, date_performed: date, employees: integer, product: 'string nullable', quantity: 'decimal nullable', measure_type: string, description: 'text nullable', images: 'text nullable', tracing_id: id, activity_id: id }

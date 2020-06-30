@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateActivitiesTable extends Migration
+class CreateDevelopedActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('developed_activities', function (Blueprint $table) {
             $table->id();
             $table->text('name');
             $table->date('date_performed');
@@ -24,6 +24,7 @@ class CreateActivitiesTable extends Migration
             $table->text('description')->nullable();
             $table->text('images')->nullable();
             $table->foreignId('tracing_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -35,6 +36,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('developed_activities');
     }
 }
