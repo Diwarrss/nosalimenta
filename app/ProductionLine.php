@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class ProductionLine extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'production_lines';
+
+    protected $fillable = [
+      'name'
+    ];
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array

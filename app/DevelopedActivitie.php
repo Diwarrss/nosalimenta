@@ -7,6 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class DevelopedActivitie extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'developed_activities';
+
+    protected $fillable = [
+      'name',
+      'date_performed',
+      'employees',
+      'product',
+      'quantity',
+      'measure_type',
+      'description',
+      'images',
+      'tracing_id',
+      'activity_id'
+    ];
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array

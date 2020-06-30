@@ -7,6 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class Tracing extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tracings';
+
+    protected $fillable = [
+      'zone',
+      'producer',
+      'identification',
+      'phone',
+      'municipality_id',
+      'production_line_id',
+      'user_id'
+    ];
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array
