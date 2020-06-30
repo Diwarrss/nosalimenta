@@ -75,44 +75,45 @@
             <div class="card-body">
               <form>
                 <div class="form-row">
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-4" v-if="allTracings.length">
                     <label class="font-weight-bold" for="inputProvince">Seguimiento</label>
-                    <!-- <v-select
-                      @input="selectTracing(tracing)"
+                    <!-- @input="selectTracing(tracing)" -->
+                    <v-select
+
                       :options="allTracings"
                       label="identification"
                       placeholder="Seleccionar Productor"
-                      v-model="tracing"
+                      v-model="formActivity.tracing"
                       class="vs_select_custom"
                       >
                       <template v-slot:option="option">
                         {{ option.identification }} - {{option.producer}}
                       </template>
                       <div slot="no-options">No hay Resultados!</div>
-                    </v-select> -->
+                    </v-select>
                   </div>
                   <div class="form-group col-md-8">
                     <label class="font-weight-bold" for="activity">Actividad</label>
-                    <select v-model="formActivity.activity_id" id="activity" class="form-control">
+                    <select v-model="formActivity.activity" @change="selectActivity()" id="activity" class="form-control">
                       <option selected value="">Seleccionar...</option>
-                      <option :value="item.id" v-for="(item, index) in allActivities" :key="index">
+                      <option :value="item" v-for="(item, index) in allActivities" :key="index">
                         {{item.name}}
                       </option>
                     </select>
                   </div>
                   <div class="form-group col-md-4">
                     <label class="font-weight-bold" for="date">Fecha</label>
-                    <input v-model="formActivity.date" class="form-control" type="date" id="date">
+                    <input v-model="formActivity.date_performed" class="form-control" type="date" id="date">
                   </div>
                   <div class="form-group col-md-12">
-                    <label class="font-weight-bold" for="inputphone">Descrpción</label>
-                    <textarea v-model="formActivity.descr" class="form-control" id="imputdesc" cols="12" rows="3"></textarea>
+                    <label class="font-weight-bold" for="inputphone">Descripción</label>
+                    <textarea v-model="formActivity.description" class="form-control" id="imputdesc" cols="12" rows="3"></textarea>
                   </div>
                   <div class="form-group col-md-2">
                     <label class="font-weight-bold" for="inputdose">Dosis</label>
                     <input type="text" class="form-control" id="inputdose">
                   </div>
-                  <div class="form-group col-md-1">
+                  <div class="form-group col-md-1" v-if="showStatus">
                     <label class="font-weight-bold" for="inputunity">Unidad</label>
                     <select id="unity" class="form-control">
                       <option selected value="">g</option>
@@ -136,8 +137,7 @@
 export default {
   data() {
     return {
-      showActivity: false,
-      tracing: '',
+      showActivity: true,
       formCreate:{
         province_id: '',
         municipality_id: '',
@@ -149,11 +149,13 @@ export default {
       },
       allMunicipalities: [],
       formActivity:{
-        tracing_id: "",
-        activity_id: "",
-        date: "",
-        descr: "",
-      }
+        tracing: '',
+        activity: '',
+        activity_id: '',
+        date_performed: '',
+        description: '',
+      },
+      showStatus: false
     }
   },
   computed: {
@@ -178,11 +180,15 @@ export default {
   methods: {
     changeForm(value){
       this.showActivity = value
+      if (!value) {
+        this.$store.dispatch('getTracings')
+      }
     },
     saveTracing(){
+      let me = this
       axios.post('saveTracing', this.formCreate)
       .then(res => {
-        this.$swal({
+        me.$swal({
           position: 'top',
           icon: 'success',
           title: res.data.message,
@@ -190,6 +196,9 @@ export default {
           confirmButtonText: 'Aceptar'
           //timer: 1500
         })
+        me.$store.dispatch('getTracings')
+        me.formActivity.tracing = res.data.data
+        me.changeForm(false)
         console.log(res)
       })
       .catch(err => {
@@ -208,6 +217,15 @@ export default {
         me.allMunicipalities = res.data
         console.log(res);
       })
+    },
+    selectActivity(){
+      let me = this
+      me.formActivity.activity_id = me.formActivity.activity.id
+      if (me.formActivity.activity.phytosanitary_limitation_status) {
+        me.showStatus = true
+      }else{
+        me.showStatus = false
+      }
     }
   },
 }

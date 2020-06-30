@@ -16,6 +16,9 @@ export default {
     setProdLines(state, data) {
       state.allProdLines = data;
     },
+    setTracings(state, data) {
+      state.allTracings = data;
+    },
   },
   actions:{
     getProvinces: async function({ commit }) {
@@ -29,6 +32,10 @@ export default {
     getActivities: async function({ commit}) {
       const data = await axios.get('activities')
       commit('setActivities', data.data)
+    },
+    getTracings: async function({ commit}) {
+      const data = await axios.get('tracings')
+      commit('setTracings', data.data)
     }
   },
   getters:{
