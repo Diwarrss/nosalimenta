@@ -14,7 +14,11 @@ class Activity extends Model
     protected $table = 'activities';
 
     protected $fillable = [
-        'name'
+        'name',
+        'phytosanitary_limitation_status',
+        'product_status',
+        'dose_status',
+        'quantity_status'
     ];
     /**
      * The attributes that aren't mass assignable.

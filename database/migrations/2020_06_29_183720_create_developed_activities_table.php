@@ -17,7 +17,10 @@ class CreateDevelopedActivitiesTable extends Migration
             $table->id();
             $table->text('name');
             $table->date('date_performed');
+            $table->string('phytosanitary_limitation');
             $table->integer('employees');
+            $table->integer('dose');
+            $table->integer('dose_type');
             $table->string('product')->nullable();
             $table->decimal('quantity')->nullable();
             $table->string('measure_type');
