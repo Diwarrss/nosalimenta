@@ -2055,6 +2055,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2076,7 +2080,13 @@ __webpack_require__.r(__webpack_exports__);
         date_performed: '',
         description: ''
       },
-      showStatus: false
+      showDescription: false,
+      showDatePerformed: false,
+      doseStatus: false,
+      phytosanitaryLimitationStatus: false,
+      productStatus: false,
+      quantityStatus: false,
+      showTipo: false
     };
   },
   computed: {
@@ -2141,10 +2151,36 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.formActivity.activity_id = me.formActivity.activity.id;
 
-      if (me.formActivity.activity.phytosanitary_limitation_status) {
-        me.showStatus = true;
+      if (me.formActivity.activity_id) {
+        me.showDescription = true;
+        me.showDatePerformed = true;
       } else {
-        me.showStatus = false;
+        me.showDescription = false;
+        me.showDatePerformed = false;
+      }
+
+      if (me.formActivity.activity.phytosanitary_limitation_status) {
+        me.phytosanitaryLimitationStatus = true;
+      } else {
+        me.phytosanitaryLimitationStatus = false;
+      }
+
+      if (me.formActivity.activity.product_status) {
+        me.productStatus = true;
+      } else {
+        me.productStatus = false;
+      }
+
+      if (me.formActivity.activity.quantity_status) {
+        me.quantityStatus = true;
+      } else {
+        me.quantityStatus = false;
+      }
+
+      if (me.formActivity.activity.dose_status) {
+        me.doseStatus = true;
+      } else {
+        me.doseStatus = false;
       }
     }
   }
@@ -81885,94 +81921,141 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "form-group col-md-4" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "font-weight-bold",
-                            attrs: { for: "date" }
-                          },
-                          [_vm._v("Fecha")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.formActivity.date_performed,
-                              expression: "formActivity.date_performed"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "date", id: "date" },
-                          domProps: { value: _vm.formActivity.date_performed },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.formActivity,
-                                "date_performed",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group col-md-12" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "font-weight-bold",
-                            attrs: { for: "inputphone" }
-                          },
-                          [_vm._v("Descripción")]
-                        ),
-                        _vm._v(" "),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.formActivity.description,
-                              expression: "formActivity.description"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { id: "imputdesc", cols: "12", rows: "3" },
-                          domProps: { value: _vm.formActivity.description },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.formActivity,
-                                "description",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(3),
-                      _vm._v(" "),
-                      _vm.showStatus
-                        ? _c("div", { staticClass: "form-group col-md-1" }, [
+                      _vm.showDescription
+                        ? _c("div", { staticClass: "form-group col-md-4" }, [
                             _c(
                               "label",
                               {
                                 staticClass: "font-weight-bold",
-                                attrs: { for: "inputunity" }
+                                attrs: { for: "date" }
                               },
-                              [_vm._v("Unidad")]
+                              [_vm._v("Fecha")]
                             ),
                             _vm._v(" "),
-                            _vm._m(4)
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.formActivity.date_performed,
+                                  expression: "formActivity.date_performed"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "date", id: "date" },
+                              domProps: {
+                                value: _vm.formActivity.date_performed
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.formActivity,
+                                    "date_performed",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.showDatePerformed
+                        ? _c("div", { staticClass: "form-group col-md-12" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "font-weight-bold",
+                                attrs: { for: "inputphone" }
+                              },
+                              [_vm._v("Descripción")]
+                            ),
+                            _vm._v(" "),
+                            _c("textarea", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.formActivity.description,
+                                  expression: "formActivity.description"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { id: "imputdesc", cols: "12", rows: "3" },
+                              domProps: { value: _vm.formActivity.description },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.formActivity,
+                                    "description",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.phytosanitaryLimitationStatus
+                        ? _c("div", { staticClass: "form-group col-md-4" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "font-weight-bold",
+                                attrs: { for: "inputphylimi" }
+                              },
+                              [_vm._v("Limitantes Fitosanitarias")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", id: "inputphylimi" }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.doseStatus
+                        ? _c("div", { staticClass: "form-group col-md-2" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "font-weight-bold",
+                                attrs: { for: "inputdose" }
+                              },
+                              [_vm._v("Dosis")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", id: "inputdose" }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.productStatus
+                        ? _c("div", { staticClass: "form-group col-md-4" }, [
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", id: "inputproduct" }
+                            })
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.quantityStatus
+                        ? _c("div", { staticClass: "form-group col-md-2" }, [
+                            _vm._m(4),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", id: "inputquantity" }
+                            })
                           ])
                         : _vm._e()
                     ])
@@ -82030,32 +82113,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-md-2" }, [
-      _c(
-        "label",
-        { staticClass: "font-weight-bold", attrs: { for: "inputdose" } },
-        [_vm._v("Dosis")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", id: "inputdose" }
-      })
-    ])
+    return _c(
+      "label",
+      { staticClass: "font-weight-bold", attrs: { for: "inputproduct" } },
+      [
+        _vm._v("Producto "),
+        _c("span", { staticClass: "font-weight-light" }, [_vm._v("(Nombre)")])
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "select",
-      { staticClass: "form-control", attrs: { id: "unity" } },
+      "label",
+      { staticClass: "font-weight-bold", attrs: { for: "inputquantity" } },
       [
-        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("g")]),
-        _vm._v(" "),
-        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("L")]),
-        _vm._v(" "),
-        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("Kg")])
+        _vm._v("Total Producto "),
+        _c("span", { staticClass: "font-weight-light" }, [_vm._v("(Cantidad)")])
       ]
     )
   },

@@ -101,25 +101,29 @@
                       </option>
                     </select>
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-4" v-if="showDescription">
                     <label class="font-weight-bold" for="date">Fecha</label>
                     <input v-model="formActivity.date_performed" class="form-control" type="date" id="date">
                   </div>
-                  <div class="form-group col-md-12">
+                  <div class="form-group col-md-12" v-if="showDatePerformed">
                     <label class="font-weight-bold" for="inputphone">Descripción</label>
                     <textarea v-model="formActivity.description" class="form-control" id="imputdesc" cols="12" rows="3"></textarea>
                   </div>
-                  <div class="form-group col-md-2">
+                  <div class="form-group col-md-4" v-if="phytosanitaryLimitationStatus">
+                    <label class="font-weight-bold" for="inputphylimi">Limitantes Fitosanitarias</label>
+                    <input type="text" class="form-control" id="inputphylimi">
+                  </div>
+                  <div class="form-group col-md-2" v-if="doseStatus">
                     <label class="font-weight-bold" for="inputdose">Dosis</label>
                     <input type="text" class="form-control" id="inputdose">
                   </div>
-                  <div class="form-group col-md-1" v-if="showStatus">
-                    <label class="font-weight-bold" for="inputunity">Unidad</label>
-                    <select id="unity" class="form-control">
-                      <option selected value="">g</option>
-                      <option selected value="">L</option>
-                      <option selected value="">Kg</option>
-                    </select>
+                  <div class="form-group col-md-4" v-if="productStatus">
+                    <label class="font-weight-bold" for="inputproduct">Producto <span class="font-weight-light">(Nombre)</span></label>
+                    <input type="text" class="form-control" id="inputproduct">
+                  </div>
+                  <div class="form-group col-md-2" v-if="quantityStatus">
+                    <label class="font-weight-bold" for="inputquantity">Total Producto <span class="font-weight-light">(Cantidad)</span></label>
+                    <input type="text" class="form-control" id="inputquantity">
                   </div>
                 </div>
               </form>
@@ -155,7 +159,13 @@ export default {
         date_performed: '',
         description: '',
       },
-      showStatus: false
+      showDescription: false,
+      showDatePerformed: false,
+      doseStatus: false,
+      phytosanitaryLimitationStatus: false,
+      productStatus: false,
+      quantityStatus: false,
+      showTipo: false
     }
   },
   computed: {
@@ -221,10 +231,32 @@ export default {
     selectActivity(){
       let me = this
       me.formActivity.activity_id = me.formActivity.activity.id
-      if (me.formActivity.activity.phytosanitary_limitation_status) {
-        me.showStatus = true
+      if (me.formActivity.activity_id) {
+        me.showDescription = true
+        me.showDatePerformed = true
       }else{
-        me.showStatus = false
+        me.showDescription = false
+        me.showDatePerformed = false
+      }
+      if (me.formActivity.activity.phytosanitary_limitation_status) {
+        me.phytosanitaryLimitationStatus = true
+      }else{
+        me.phytosanitaryLimitationStatus = false
+      }
+      if (me.formActivity.activity.product_status) {
+        me.productStatus = true
+      }else{
+        me.productStatus = false
+      }
+      if (me.formActivity.activity.quantity_status) {
+        me.quantityStatus = true
+      }else{
+        me.quantityStatus = false
+      }
+      if (me.formActivity.activity.dose_status) {
+        me.doseStatus = true
+      }else{
+        me.doseStatus = false
       }
     }
   },
