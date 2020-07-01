@@ -126,7 +126,7 @@ class ActivitySeeder extends Seeder
         [
           'name' => 'TUTORADO',
           'dose_unity' => '',
-          'quantity_unity' => '',
+          'quantity_unity' => 'Cantidad',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => false,
