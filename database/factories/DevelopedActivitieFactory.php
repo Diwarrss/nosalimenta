@@ -14,6 +14,7 @@ $factory->define(DevelopedActivitie::class, function (Faker $faker) {
         'measure_type' => $faker->word,
         'description' => $faker->text,
         'images' => $faker->text,
+        'model' => $faker->text,
         'tracing_id' => factory(\App\Tracing::class),
         'activity_id' => factory(\App\Activity::class),
     ];

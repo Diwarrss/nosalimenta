@@ -15,12 +15,16 @@ class DevelopedActivitie extends Model
 
     protected $fillable = [
       'date_performed',
+      'phytosanitary_limitation',
       'employees',
+      'dose',
+      'dose_type',
       'product',
       'quantity',
       'measure_type',
       'description',
       'images',
+      'model',
       'tracing_id',
       'activity_id'
     ];
