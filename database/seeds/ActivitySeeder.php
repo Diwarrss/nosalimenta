@@ -15,6 +15,8 @@ class ActivitySeeder extends Seeder
       DB::table('activities')->insert([
         [
           'name' => 'FECHA DE ENTREGA DE SEMLLA AL BENEFICIARIO',
+          'dose_unity' => '',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => false,
@@ -24,6 +26,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'PREPARACION DEL TERRENO',
+          'dose_unity' => '',
+          'quantity_unity' => 'Horas',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => false,
@@ -33,6 +37,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'APLICACIÓN DE ENMIENDAS',
+          'dose_unity' => '',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => false,
@@ -42,6 +48,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'SIEMBRA',
+          'dose_unity' => 'Kg',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => true,
@@ -51,6 +59,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'FERTILIZACION',
+          'dose_unity' => 'gr/Planta',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => true,
@@ -60,6 +70,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'APLICACIÓN DE INSECTICIDA',
+          'dose_unity' => 'cc',
+          'quantity_unity' => 'Litro',
           'phytosanitary_limitation_status' => true,
           'product_status' => true,
           'dose_status' => true,
@@ -69,6 +81,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'APLICACIÓN DE HERBICIDA',
+          'dose_unity' => 'cc',
+          'quantity_unity' => 'Litro',
           'phytosanitary_limitation_status' => true,
           'product_status' => true,
           'dose_status' => true,
@@ -78,6 +92,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'APLICACIÓN DE FUNGICIDA',
+          'dose_unity' => 'cc',
+          'quantity_unity' => 'Litro',
           'phytosanitary_limitation_status' => true,
           'product_status' => true,
           'dose_status' => true,
@@ -87,6 +103,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'APORQUE',
+          'dose_unity' => '',
+          'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -96,6 +114,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'DESHIERBE',
+          'dose_unity' => '',
+          'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -105,6 +125,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'TUTORADO',
+          'dose_unity' => '',
+          'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
           'product_status' => true,
           'dose_status' => false,
@@ -114,6 +136,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'RIEGO',
+          'dose_unity' => '',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -123,6 +147,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'PLAGAS',
+          'dose_unity' => '',
+          'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -132,6 +158,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'ENFERMEDADES',
+          'dose_unity' => '',
+          'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -141,6 +169,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'COSECHA EN VERDE',
+          'dose_unity' => '',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -150,6 +180,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'COSECHA EN SECO',
+          'dose_unity' => '',
+          'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,
@@ -159,6 +191,8 @@ class ActivitySeeder extends Seeder
         ],
         [
           'name' => 'OTRAS - CUAL',
+          'dose_unity' => '',
+          'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
           'product_status' => false,
           'dose_status' => false,

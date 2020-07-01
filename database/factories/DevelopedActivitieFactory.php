@@ -7,7 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(DevelopedActivitie::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
         'date_performed' => $faker->date(),
         'employees' => $faker->numberBetween(-10000, 10000),
         'product' => $faker->word,

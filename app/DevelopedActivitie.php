@@ -14,7 +14,6 @@ class DevelopedActivitie extends Model
     protected $table = 'developed_activities';
 
     protected $fillable = [
-      'name',
       'date_performed',
       'employees',
       'product',

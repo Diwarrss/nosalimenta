@@ -16,6 +16,8 @@ class CreateActivitiesTable extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('dose_unity');
+            $table->string('quantity_unity');
             $table->boolean('phytosanitary_limitation_status');
             $table->boolean('product_status');
             $table->boolean('dose_status');

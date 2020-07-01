@@ -15,6 +15,8 @@ class Activity extends Model
 
     protected $fillable = [
         'name',
+        'dose_unity',
+        'quantity_unity',
         'phytosanitary_limitation_status',
         'product_status',
         'dose_status',

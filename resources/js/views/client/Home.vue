@@ -105,25 +105,38 @@
                     <label class="font-weight-bold" for="date">Fecha</label>
                     <input v-model="formActivity.date_performed" class="form-control" type="date" id="date">
                   </div>
-                  <div class="form-group col-md-12" v-if="showDatePerformed">
-                    <label class="font-weight-bold" for="inputphone">Descripción</label>
-                    <textarea v-model="formActivity.description" class="form-control" id="imputdesc" cols="12" rows="3"></textarea>
+                  <div class="form-group col-md-4" v-if="showDescription">
+                    <label class="font-weight-bold" for="date">Numero de obreros</label>
+                    <input v-model="formActivity.employees" class="form-control" type="text" id="date">
                   </div>
                   <div class="form-group col-md-4" v-if="phytosanitaryLimitationStatus">
                     <label class="font-weight-bold" for="inputphylimi">Limitantes Fitosanitarias</label>
-                    <input type="text" class="form-control" id="inputphylimi">
+                    <input v-model="formActivity.phytosanitary_limitation" type="text" class="form-control" id="inputphylimi">
                   </div>
                   <div class="form-group col-md-2" v-if="doseStatus">
                     <label class="font-weight-bold" for="inputdose">Dosis</label>
-                    <input type="text" class="form-control" id="inputdose">
+                    <input v-model="formActivity.dose" type="text" class="form-control" id="inputdose">
                   </div>
                   <div class="form-group col-md-4" v-if="productStatus">
                     <label class="font-weight-bold" for="inputproduct">Producto <span class="font-weight-light">(Nombre)</span></label>
-                    <input type="text" class="form-control" id="inputproduct">
+                    <input v-model="formActivity.product" type="text" class="form-control" id="inputproduct">
                   </div>
                   <div class="form-group col-md-2" v-if="quantityStatus">
                     <label class="font-weight-bold" for="inputquantity">Total Producto <span class="font-weight-light">(Cantidad)</span></label>
-                    <input type="text" class="form-control" id="inputquantity">
+                    <input v-model="formActivity.quantity" type="text" class="form-control" id="inputquantity">
+                  </div>
+                  <div class="form-group col-md-2" v-if="showTipo">
+                    <label class="font-weight-bold" for="Metod">Metodo </label>
+                    <!-- <input v-model="formActivity.quantity" type="text" class="form-control" id="inputquantity"> -->
+                    <select  v-model="formActivity.metod" id="Metod" class="form-control">
+                      <option selected value="">Seleccionar...</option>
+                      <option selected value="">Manual</option>
+                      <option selected value="">Mecanico</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-12" v-if="showDescription">
+                    <label class="font-weight-bold" for="inputphone">Descripción</label>
+                    <textarea v-model="formActivity.description" class="form-control" id="imputdesc" cols="12" rows="3"></textarea>
                   </div>
                 </div>
               </form>
@@ -153,11 +166,20 @@ export default {
       },
       allMunicipalities: [],
       formActivity:{
+        date_performed: '',
+        phytosanitary_limitation: '',
+        employees: '',
+        dose: '',
+        dose_type: '',
+        product: '',
+        quantity: '',
+        measure_type: '',
+        description: '',
+        image: '',
+        metod: '',
         tracing: '',
         activity: '',
         activity_id: '',
-        date_performed: '',
-        description: '',
       },
       showDescription: false,
       showDatePerformed: false,
@@ -237,6 +259,11 @@ export default {
       }else{
         me.showDescription = false
         me.showDatePerformed = false
+      }
+      if (me.formActivity.activity.id === 2) {
+        me.showTipo = true
+      }else{
+        me.showTipo = false
       }
       if (me.formActivity.activity.phytosanitary_limitation_status) {
         me.phytosanitaryLimitationStatus = true

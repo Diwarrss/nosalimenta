@@ -15,7 +15,6 @@ class CreateDevelopedActivitiesTable extends Migration
     {
         Schema::create('developed_activities', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
             $table->date('date_performed');
             $table->string('phytosanitary_limitation');
             $table->integer('employees');
