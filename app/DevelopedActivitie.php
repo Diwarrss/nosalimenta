@@ -24,7 +24,7 @@ class DevelopedActivitie extends Model
       'measure_type',
       'description',
       'images',
-      'model',
+      'metod',
       'tracing_id',
       'activity_id'
     ];
@@ -40,12 +40,12 @@ class DevelopedActivitie extends Model
      *
      * @var array
      */
-    protected $casts = [
+    /* protected $casts = [
         'id' => 'integer',
         'quantity' => 'decimal',
         'tracing_id' => 'integer',
         'activity_id' => 'integer',
-    ];
+    ]; */
 
 
     public function tracing()

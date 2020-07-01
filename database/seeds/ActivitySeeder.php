@@ -14,7 +14,7 @@ class ActivitySeeder extends Seeder
     {
       DB::table('activities')->insert([
         [
-          'name' => 'FECHA DE ENTREGA DE SEMLLA AL BENEFICIARIO',
+          'name' => 'FECHA DE ENTREGA DE SEMILLA AL BENEFICIARIO',
           'dose_unity' => '',
           'quantity_unity' => 'Kg',
           'phytosanitary_limitation_status' => false,

@@ -33,9 +33,10 @@ Route::group(['middleware' => 'auth'], function () {
   //TracingController
   Route::get('tracings', 'TracingController@index');
   Route::post('saveTracing', 'TracingController@store');
-
   //ActivityController
   Route::get('activities', 'ActivityController@index');
+  //DevelopActivityController
+  Route::post('saveActivity', 'DevelopActivityController@store');
   //ProductionLineController
   Route::get('production-lines', 'ProductionLineController@index');
 });

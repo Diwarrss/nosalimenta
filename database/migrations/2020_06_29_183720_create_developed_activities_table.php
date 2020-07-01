@@ -16,15 +16,16 @@ class CreateDevelopedActivitiesTable extends Migration
         Schema::create('developed_activities', function (Blueprint $table) {
             $table->id();
             $table->date('date_performed');
-            $table->string('phytosanitary_limitation');
+            $table->string('phytosanitary_limitation')->nullable();
             $table->integer('employees');
-            $table->integer('dose');
-            $table->integer('dose_type');
+            $table->decimal('dose', 8,2)->nullable();
+            $table->string('dose_type')->nullable();
             $table->string('product')->nullable();
-            $table->decimal('quantity')->nullable();
-            $table->string('measure_type');
-            $table->text('description')->nullable();
+            $table->decimal('quantity', 8,2)->nullable();
+            $table->string('measure_type')->nullable();
+            $table->text('description');
             $table->text('images')->nullable();
+            $table->string('metod')->nullable();
             $table->foreignId('tracing_id')->constrained()->cascadeOnDelete();
             $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
