@@ -14,12 +14,15 @@ class TracingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      if (Auth::user()->rol_id === 1) {
+      if($request->id){
+        return Tracing::with('developedActivities', 'productionLine', 'municipality')->where('id', $request->id)->get();
+      }else if (Auth::user()->rol_id === 1) {
         return Tracing::all();
+      }else{
+        return Tracing::where('user_id', Auth::user()->id)->get();
       }
-      return Tracing::where('user_id', Auth::user()->id)->get();
     }
 
     /**

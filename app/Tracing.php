@@ -56,4 +56,9 @@ class Tracing extends Model
     {
         return $this->belongsTo(\App\User::class);
     }
+
+    public function developedActivities()
+    {
+        return $this->hasMany(\App\DevelopedActivitie::class, 'tracing_id', 'id')->with('activity');
+    }
 }

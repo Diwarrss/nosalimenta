@@ -13,9 +13,9 @@ class DevelopActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
     }
 
     /**
@@ -36,6 +36,7 @@ class DevelopActivityController extends Controller
      */
     public function store(Request $request)
     {
+      //guardar
       if (!$request->ajax()) return redirect('/');
 
       try {

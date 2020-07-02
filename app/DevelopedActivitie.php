@@ -50,7 +50,7 @@ class DevelopedActivitie extends Model
 
     public function tracing()
     {
-        return $this->belongsTo(\App\Tracing::class);
+        return $this->belongsTo(\App\Tracing::class)->with('productionLine');
     }
 
     public function activity()

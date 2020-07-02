@@ -26,6 +26,8 @@ Route::group(['middleware' => 'guest'], function () {
 
 /*Users Auth*/
 Route::group(['middleware' => 'auth'], function () {
+  //UserController
+  Route::get('user', 'UserController@index');
   //ProvinceController
   Route::get('provinces', 'ProvinceController@index');
   //MunicipalityController
@@ -37,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('activities', 'ActivityController@index');
   //DevelopActivityController
   Route::post('saveActivity', 'DevelopActivityController@store');
+  //Route::get('developed-activities', 'DevelopActivityController@index');
   //ProductionLineController
   Route::get('production-lines', 'ProductionLineController@index');
 });
