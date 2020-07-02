@@ -2,7 +2,7 @@
   <div class="col-md-12 form_cliente" v-if="user">
     <!-- Options -->
     <section class="container">
-      <button class="m-2 btn btn-success" @click.prevent="changeForm('seeTracings')" v-if="user.rol_id === 1">
+      <button class="m-2 btn btn-secondary" @click.prevent="changeForm('seeTracings')" v-if="user.rol_id === 1">
         <i class="fa fa-file-text-o" aria-hidden="true"></i> Seguimientos
       </button>
       <button class="m-2 btn btn-success" @click.prevent="changeForm('create')">
@@ -164,7 +164,7 @@
           <AddActivity :tracingId="tracing_id"/>
         </div>
         <div v-else class="col-md-12">
-          <SeeActivity/>
+          <SeeActivity v-on:speak="changeForm($event)"/>
         </div>
       </div>
     </section>
@@ -271,7 +271,7 @@ export default {
         this.showActivity = 'create'
         /* this.changeForm('create') */
       }
-      console.log(res)
+      //console.log(res)
     })
     .catch(err => {
       console.error(err);
@@ -279,6 +279,7 @@ export default {
   },
   methods: {
     changeForm(value){
+      //console.log(value)
       this.showActivity = value
       if (value !== 'create') {
         this.$store.dispatch('getTracings')
@@ -302,7 +303,7 @@ export default {
           me.tracing_id = res.data.data.id
           me.resetForm()
           me.changeForm('addActivity')
-          console.log(res)
+          //console.log(res)
         })
         .catch(err => {
           console.error(err);

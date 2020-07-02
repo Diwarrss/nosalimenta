@@ -340,6 +340,9 @@ export default {
   created() {
     this.$store.dispatch('getProvinces')
     this.$store.dispatch('getActivities')
+    if (this.$store.state.tracingId !== 0) {
+      this.formActivity.tracing_id = this.$store.state.tracingId
+    }
   },
   watch: {
     /* cuando la variable sea afectada o tenga algun cambio ejecuta el proceso */

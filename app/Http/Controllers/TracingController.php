@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Municipality;
+use App\Province;
 use App\Tracing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +18,17 @@ class TracingController extends Controller
      */
     public function index(Request $request)
     {
+      $paginate = $request->paginate;
+      $per_page = $request->per_page;
+
       if($request->id){
         return Tracing::with('developedActivities', 'productionLine', 'municipality')->where('id', $request->id)->get();
       }else if (Auth::user()->rol_id === 1) {
-        return Tracing::all();
+        if ($paginate == 'true') {
+          return Tracing::with('user', 'developedActivities', 'productionLine', 'municipality')->paginate($per_page);
+        }else{
+          return Tracing::with('user', 'developedActivities', 'productionLine', 'municipality')->latest()->take($per_page)->get();
+        }
       }else{
         return Tracing::where('user_id', Auth::user()->id)->get();
       }

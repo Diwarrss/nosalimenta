@@ -26,8 +26,10 @@
           <label class="font-weight-bold" for="inputIdent">Linea Productiva</label>
           <label class="form-control" id="inputIdent">{{linea.name}}</label>
         </div>
-        <div class="form-group col-md-4">
-          <button class="btn btn-primary">Crear Actividad</button>
+        <div class="form-group col-md-4" v-if="linea !== undefined">
+          <button
+          @click="$emit('speak', 'addActivity'), sendData(tracing_id)"
+          class="btn btn-primary">Agregar Actividad</button>
         </div>
       </div>
       <div class="table-responsive">
@@ -87,13 +89,14 @@ export default {
       return this.$store.state.allDevelopedActivities
     },
   },
-  created() {
-
-  },
   methods: {
     changeTracing(e){
       this.$store.dispatch('getDevelopedActivities', e)
     },
+    sendData(tracing_id){
+      this.$store.state.allDevelopedActivities = {}
+      this.$store.dispatch('saveTracingId', tracing_id);
+    }
   }
 }
 </script>

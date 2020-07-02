@@ -7,7 +7,8 @@ export default {
     allActivities: {},
     allProdLines: {},
     allMunicipalities: {},
-    allDevelopedActivities: {}
+    allDevelopedActivities: {},
+    tracingId: 0
   },
   mutations:{
     setUser(state, data) {
@@ -30,7 +31,10 @@ export default {
     },
     setDevelopedActivities(state , data){
       state.allDevelopedActivities = data[0]
-    }
+    },
+    setId(state , data){
+      state.tracingId = data
+    },
   },
   actions:{
     getUser: async function({ commit }) {
@@ -69,6 +73,9 @@ export default {
       })
       commit('setDevelopedActivities', data.data)
     },
+    saveTracingId({ commit}, tracing_id){
+      commit('setId', tracing_id)
+    }
   },
   getters:{
 

@@ -44,7 +44,7 @@ class Tracing extends Model
 
     public function municipality()
     {
-        return $this->belongsTo(\App\Municipality::class);
+        return $this->belongsTo(\App\Municipality::class)->with('province');
     }
 
     public function productionLine()

@@ -2259,6 +2259,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.$store.dispatch('getProvinces');
     this.$store.dispatch('getActivities');
+
+    if (this.$store.state.tracingId !== 0) {
+      this.formActivity.tracing_id = this.$store.state.tracingId;
+    }
   },
   watch: {
     /* cuando la variable sea afectada o tenga algun cambio ejecuta el proceso */
@@ -2447,6 +2451,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2464,10 +2470,353 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.state.allDevelopedActivities;
     }
   },
-  created: function created() {},
   methods: {
     changeTracing: function changeTracing(e) {
       this.$store.dispatch('getDevelopedActivities', e);
+    },
+    sendData: function sendData(tracing_id) {
+      this.$store.state.allDevelopedActivities = {};
+      this.$store.dispatch('saveTracingId', tracing_id);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/SeeTracings.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/SeeTracings.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Components_TableCustom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Components/TableCustom */ "./resources/js/Components/TableCustom.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    TableCustom: _Components_TableCustom__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      api_url: '/tracings',
+      columns: [{
+        name: 'id',
+        title: '#'
+      }, {
+        name: 'user.name',
+        title: 'Encargado'
+      }, {
+        name: 'municipality.province.name',
+        title: 'Provincia'
+      }, {
+        name: 'municipality.name',
+        title: 'Municipio'
+      }, {
+        name: 'zone',
+        title: 'Vereda'
+      }, {
+        name: 'producer',
+        title: 'Productor'
+      }, {
+        name: 'identification',
+        title: 'Cedula'
+      }, {
+        name: 'phone',
+        title: 'Celular'
+      }]
+    };
+  },
+  computed: {
+    allTracings: function allTracings() {
+      return this.$store.state.allTracings;
+    }
+  },
+  created: function created() {
+    this.$store.dispatch('getTracings');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/TableCustom.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/TableCustom.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    api_url: String,
+    //url de la api method get server
+    columns: {
+      type: [Object, Array],
+      required: true
+    },
+    //El header de la tabla
+    data_local: {
+      type: [Object, Array],
+      "default": Object
+    },
+    //json con la informacion local
+    actions: {
+      type: Object,
+      "default": Object
+    },
+    per_page: {
+      type: Number,
+      "default": 5
+    },
+    //datos por pagina
+    paginate: {
+      type: Boolean,
+      "default": true
+    } //para paginar
+
+  },
+  data: function data() {
+    return {
+      allData: [Array, Object],
+      tableFields: []
+    };
+  },
+  computed: {
+    //validar si no hay datos
+    countVisibleFields: function countVisibleFields() {
+      return this.tableFields.length;
+    }
+  },
+  created: function created() {
+    //verificamos si viene url si no igualamos la variable allData = data
+    if (this.api_url) {
+      this.getData();
+    } else {
+      this.allData = this.data_local;
+    }
+
+    this.normalizeFields();
+  },
+  methods: {
+    getData: function getData() {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      var me = this; //si recibimos una pagina
+
+      if (me.paginate) {
+        axios.get(me.api_url + '?page=' + page, {
+          params: {
+            per_page: me.per_page,
+            paginate: me.paginate,
+            page: page
+          }
+        }).then(function (res) {
+          me.allData = res.data; //console.log(res);
+        });
+      } else {
+        axios.get(me.api_url, {
+          params: {
+            per_page: me.per_page,
+            paginate: me.paginate
+          }
+        }).then(function (res) {
+          me.allData = res.data; //console.log(res);
+        });
+      }
+    },
+    warn: function warn(msg) {
+      if (!this.silent) {
+        console.warn(msg);
+      }
+    },
+    normalizeFields: function normalizeFields() {
+      var _this = this;
+
+      if (typeof this.columns === 'undefined') {
+        this.warn('You need to provide "fields" prop.');
+        return;
+      }
+
+      this.tableFields = [];
+      this.columns.forEach(function (field, i) {
+        _this.tableFields.push(_this.newField(field, i));
+      }); //console.log(this.tableFields)
+    },
+    newField: function newField(field, index) {
+      var defaultField = {
+        name: '',
+        // title:
+        // this allow the code to detect undefined title
+        // and replace it with capitalized name instead
+        titleClass: '',
+        dataClass: '',
+        sortField: null,
+        formatter: null,
+        visible: true,
+        width: null,
+        $_index: index
+      };
+
+      if (typeof field === 'string') {
+        return Object.assign({}, defaultField, {
+          name: this.normalizeFieldName(field),
+          title: this.makeTitle(field)
+        });
+      }
+
+      var obj = Object.assign({}, defaultField, field);
+      obj.name = this.normalizeFieldName(obj.name);
+
+      if (obj.title === undefined) {
+        obj.title = this.makeTitle(obj.name);
+      }
+
+      if (obj.formatter !== null && typeof obj.formatter !== 'function') {
+        console.error(obj.name + ' field formatter must be a function');
+        obj.formatter = null;
+      }
+
+      return obj;
+    },
+    normalizeFieldName: function normalizeFieldName(fieldName) {
+      if (fieldName instanceof Object) return fieldName;
+      return typeof fieldName === 'string' && fieldName.replace('__', this.fieldPrefix);
+    },
+    makeTitle: function makeTitle(str) {
+      if (this.isFieldComponent(str)) {
+        return '';
+      }
+
+      return this.titleCase(str.replace('.', ' '));
+    },
+    isFieldComponent: function isFieldComponent(fieldName) {
+      if (fieldName instanceof Object) {
+        // let's assume it is a Vue component
+        return true;
+      }
+
+      return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix || fieldName.slice(0, 2) === '__';
+    },
+    titleCase: function titleCase(str) {
+      return str.replace(/\w+/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    },
+    bodyClass: function bodyClass(base, field) {
+      return [base, field.dataClass];
+    },
+    renderNormalField: function renderNormalField(field, item) {
+      return this.hasFormatter(field) ? this.callFormatter(field, item) : this.getObjectValue(item, field.name, '');
+    },
+    hasFormatter: function hasFormatter(item) {
+      return typeof item.formatter === 'function';
+    },
+    callFormatter: function callFormatter(field, item) {
+      if (!this.hasFormatter(field)) return;
+
+      if (typeof field.formatter === 'function') {
+        return field.formatter(this.getObjectValue(item, field.name), this);
+      }
+    },
+    //comparamos los valores del data vs fields
+    getObjectValue: function getObjectValue(object, path, defaultValue) {
+      defaultValue = typeof defaultValue === 'undefined' ? null : defaultValue;
+      var obj = object;
+
+      if (path.trim() != '') {
+        var keys = path.split('.');
+        keys.forEach(function (key) {
+          if (obj !== null && typeof obj[key] !== 'undefined' && obj[key] !== null) {
+            obj = obj[key];
+          } else {
+            obj = defaultValue;
+            return;
+          }
+        });
+      }
+
+      return obj;
     }
   }
 });
@@ -2767,15 +3116,15 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         _this.showActivity = 'create';
         /* this.changeForm('create') */
-      }
+      } //console.log(res)
 
-      console.log(res);
     })["catch"](function (err) {
       console.error(err);
     });
   },
   methods: {
     changeForm: function changeForm(value) {
+      //console.log(value)
       this.showActivity = value;
 
       if (value !== 'create') {
@@ -2799,8 +3148,7 @@ __webpack_require__.r(__webpack_exports__);
           me.$store.dispatch('getTracings');
           me.tracing_id = res.data.data.id;
           me.resetForm();
-          me.changeForm('addActivity');
-          console.log(res);
+          me.changeForm('addActivity'); //console.log(res)
         })["catch"](function (err) {
           console.error(err);
         });
@@ -82946,20 +83294,36 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm._m(1)
+        _vm.linea !== undefined
+          ? _c("div", { staticClass: "form-group col-md-4" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: {
+                    click: function($event) {
+                      _vm.$emit("speak", "addActivity"),
+                        _vm.sendData(_vm.tracing_id)
+                    }
+                  }
+                },
+                [_vm._v("Agregar Actividad")]
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "table-responsive" }, [
         _vm.allDevelopedActivities.developed_activities
           ? _c("table", { staticClass: "table table-striped table-sm" }, [
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "tbody",
                 { staticClass: "body_table" },
                 [
                   !_vm.allDevelopedActivities.developed_activities.length
-                    ? _c("tr", [_vm._m(3)])
+                    ? _c("tr", [_vm._m(2)])
                     : _vm._l(
                         _vm.allDevelopedActivities.developed_activities,
                         function(item, index) {
@@ -83030,16 +83394,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-md-4" }, [
-      _c("button", { staticClass: "btn btn-primary" }, [
-        _vm._v("Crear Actividad")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
@@ -83099,7 +83453,182 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n  asdsad\n")])
+  return _c("div", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _c("TableCustom", {
+          attrs: {
+            api_url: _vm.api_url,
+            columns: _vm.columns,
+            per_page: 8,
+            paginate: false
+          }
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", {
+        staticClass: "fa fa-list-ol",
+        attrs: { "aria-hidden": "true" }
+      }),
+      _vm._v(" Seguimientos\n  ")
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/TableCustom.vue?vue&type=template&id=5fc63064&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/TableCustom.vue?vue&type=template&id=5fc63064& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "table-responsive" },
+    [
+      _c("table", { staticClass: "table table-striped" }, [
+        _c("thead", [
+          _vm.columns
+            ? _c(
+                "tr",
+                _vm._l(_vm.tableFields, function(item, index) {
+                  return _c(
+                    "th",
+                    { key: index, attrs: { id: item.name, scope: "col" } },
+                    [_vm._v("\n          " + _vm._s(item.title) + "\n        ")]
+                  )
+                }),
+                0
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm.paginate
+          ? _c(
+              "tbody",
+              [
+                !_vm.allData.total
+                  ? _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "alert alert-info text-center",
+                          attrs: { colspan: _vm.countVisibleFields }
+                        },
+                        [_vm._v("Sin Datos!")]
+                      )
+                    ])
+                  : _vm._l(_vm.allData.data, function(data, keyIndex) {
+                      return _c(
+                        "tr",
+                        { key: keyIndex, attrs: { "item-index": keyIndex } },
+                        [
+                          _vm._l(_vm.tableFields, function(field, fieldIndex) {
+                            return field.visible
+                              ? _c("td", {
+                                  key: fieldIndex,
+                                  class: _vm.bodyClass(
+                                    "vuetable-td-" + field.name,
+                                    field
+                                  ),
+                                  style: { width: field.width },
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.renderNormalField(field, data)
+                                    )
+                                  }
+                                })
+                              : _vm._e()
+                          })
+                        ],
+                        2
+                      )
+                    })
+              ],
+              2
+            )
+          : _c(
+              "tbody",
+              [
+                !_vm.allData.length
+                  ? _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "alert alert-info text-center",
+                          attrs: { colspan: _vm.countVisibleFields }
+                        },
+                        [_vm._v("Sin Datos!")]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(_vm.allData, function(data, keyIndex) {
+                  return _c(
+                    "tr",
+                    { key: keyIndex, attrs: { "item-index": keyIndex } },
+                    [
+                      _vm._l(_vm.tableFields, function(field, fieldIndex) {
+                        return field.visible
+                          ? _c("td", {
+                              key: fieldIndex,
+                              class: _vm.bodyClass(
+                                "vuetable-td-" + field.name,
+                                field
+                              ),
+                              style: { width: field.width },
+                              domProps: {
+                                innerHTML: _vm._s(
+                                  _vm.renderNormalField(field, data)
+                                )
+                              }
+                            })
+                          : _vm._e()
+                      })
+                    ],
+                    2
+                  )
+                })
+              ],
+              2
+            )
+      ]),
+      _vm._v(" "),
+      _vm.paginate
+        ? _c("pagination", {
+            attrs: { data: _vm.allData, align: "center", limit: 1 },
+            on: { "pagination-change-page": _vm.getData }
+          })
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -83130,7 +83659,7 @@ var render = function() {
             ? _c(
                 "button",
                 {
-                  staticClass: "m-2 btn btn-success",
+                  staticClass: "m-2 btn btn-secondary",
                   on: {
                     click: function($event) {
                       $event.preventDefault()
@@ -83850,7 +84379,20 @@ var render = function() {
                   [_c("AddActivity", { attrs: { tracingId: _vm.tracing_id } })],
                   1
                 )
-              : _c("div", { staticClass: "col-md-12" }, [_c("SeeActivity")], 1)
+              : _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _c("SeeActivity", {
+                      on: {
+                        speak: function($event) {
+                          return _vm.changeForm($event)
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
           ])
         ])
       ])
@@ -108639,15 +109181,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SeeTracings_vue_vue_type_template_id_0a28aa69___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SeeTracings.vue?vue&type=template&id=0a28aa69& */ "./resources/js/Components/SeeTracings.vue?vue&type=template&id=0a28aa69&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _SeeTracings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SeeTracings.vue?vue&type=script&lang=js& */ "./resources/js/Components/SeeTracings.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SeeTracings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _SeeTracings_vue_vue_type_template_id_0a28aa69___WEBPACK_IMPORTED_MODULE_0__["render"],
   _SeeTracings_vue_vue_type_template_id_0a28aa69___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -108664,6 +109208,20 @@ component.options.__file = "resources/js/Components/SeeTracings.vue"
 
 /***/ }),
 
+/***/ "./resources/js/Components/SeeTracings.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Components/SeeTracings.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SeeTracings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SeeTracings.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/SeeTracings.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SeeTracings_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/Components/SeeTracings.vue?vue&type=template&id=0a28aa69&":
 /*!********************************************************************************!*\
   !*** ./resources/js/Components/SeeTracings.vue?vue&type=template&id=0a28aa69& ***!
@@ -108677,6 +109235,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SeeTracings_vue_vue_type_template_id_0a28aa69___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SeeTracings_vue_vue_type_template_id_0a28aa69___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/TableCustom.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/Components/TableCustom.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TableCustom_vue_vue_type_template_id_5fc63064___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TableCustom.vue?vue&type=template&id=5fc63064& */ "./resources/js/Components/TableCustom.vue?vue&type=template&id=5fc63064&");
+/* harmony import */ var _TableCustom_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableCustom.vue?vue&type=script&lang=js& */ "./resources/js/Components/TableCustom.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TableCustom_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TableCustom_vue_vue_type_template_id_5fc63064___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TableCustom_vue_vue_type_template_id_5fc63064___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Components/TableCustom.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Components/TableCustom.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Components/TableCustom.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCustom_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TableCustom.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/TableCustom.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCustom_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Components/TableCustom.vue?vue&type=template&id=5fc63064&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/Components/TableCustom.vue?vue&type=template&id=5fc63064& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCustom_vue_vue_type_template_id_5fc63064___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TableCustom.vue?vue&type=template&id=5fc63064& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Components/TableCustom.vue?vue&type=template&id=5fc63064&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCustom_vue_vue_type_template_id_5fc63064___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCustom_vue_vue_type_template_id_5fc63064___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -108840,7 +109467,8 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
     allActivities: {},
     allProdLines: {},
     allMunicipalities: {},
-    allDevelopedActivities: {}
+    allDevelopedActivities: {},
+    tracingId: 0
   },
   mutations: {
     setUser: function setUser(state, data) {
@@ -108863,6 +109491,9 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
     },
     setDevelopedActivities: function setDevelopedActivities(state, data) {
       state.allDevelopedActivities = data[0];
+    },
+    setId: function setId(state, data) {
+      state.tracingId = data;
     }
   },
   actions: {
@@ -109076,7 +109707,11 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
       }
 
       return getDevelopedActivities;
-    }()
+    }(),
+    saveTracingId: function saveTracingId(_ref8, tracing_id) {
+      var commit = _ref8.commit;
+      commit('setId', tracing_id);
+    }
   },
   getters: {}
 });
