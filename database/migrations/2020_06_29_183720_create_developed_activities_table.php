@@ -24,7 +24,6 @@ class CreateDevelopedActivitiesTable extends Migration
             $table->decimal('quantity', 8,2)->nullable();
             $table->string('measure_type')->nullable();
             $table->text('description');
-            $table->text('images')->nullable();
             $table->string('metod')->nullable();
             $table->foreignId('tracing_id')->constrained()->cascadeOnDelete();
             $table->foreignId('activity_id')->constrained()->cascadeOnDelete();

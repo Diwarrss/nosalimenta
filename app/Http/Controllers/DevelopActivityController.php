@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityImage;
 use App\DevelopedActivitie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DevelopActivityController extends Controller
 {
@@ -36,34 +38,46 @@ class DevelopActivityController extends Controller
      */
     public function store(Request $request)
     {
-      //guardar
       if (!$request->ajax()) return redirect('/');
+
+      $images = $request->images;
 
       try {
         //usaremos transacciones por si surge un error durante el proceso
         DB::beginTransaction();
 
           $data = $request->all();
-          $develop = DevelopedActivitie::create($data);
+          $develop = DevelopedActivitie::create([
+            'date_performed' => $request->date_performed,
+            'phytosanitary_limitation' => $request->phytosanitary_limitation ? $request->phytosanitary_limitation : null,
+            'employees' => $request->employees,
+            'dose' => $request->dose,
+            'dose_type' => $request->dose_type ? $request->dose_type :null,
+            'product' => $request->product ? $request->product :null,
+            'quantity' => $request->quantity,
+            'measure_type' => $request->measure_type ? $request->measure_type :null,
+            'description' => $request->description,
+            'metod' => $request->metod ? $request->metod :null,
+            'tracing_id' => $request->tracing_id,
+            'activity_id' => $request->activity_id
+          ]);
 
-          /* $develop = new DevelopedActivitie;
-          $develop->date_performed = $request->date_performed;
-          $develop->phytosanitary_limitation = $request->phytosanitary_limitation ? $request->phytosanitary_limitation : null;
-          $develop->employees = $request->employees;
-          $develop->dose = $request->dose;
-          $develop->dose_type = $request->dose_type ? $request->dose_type :null;
-          $develop->product = $request->product ? $request->product :null;
-          $develop->quantity = $request->quantity;
-          $develop->measure_type = $request->measure_type ? $request->measure_type :null;
-          $develop->description = $request->description;
-          $develop->images = $request->images ? $request->images :null;
-          $develop->metod = $request->metod ? $request->metod :null;
-          $develop->tracing_id = $request->tracing_id;
-          $develop->activity_id = $request->activity_id;
-          $develop->save(); */
-
+          if ($images) {
+            //validamos las imagenes antes de guardar
+            $request->validate([
+              'images.*' => 'image|mimes:jpeg,png,jpg|max:1024'
+            ]);
+            /*Agregar Imagenes a DevelopedActivitie*/
+            foreach ($images as $image) {
+              $imagePath =  Storage::disk('uploads')->put('/imageActivity/' . $develop->id, $image);
+              ActivityImage::create([
+                'image_path' => $imagePath,
+                'image_caption' => $develop->activity_id,
+                'developed_activity_id' => $develop->id
+              ]);
+            }
+          }
           DB::commit(); //commit de la transaccion
-
           return response()->json([
             'message' => 'Actividad agregada con éxito',
             'data' => $develop

@@ -1,36 +1,5 @@
 models:
-  Rol:
-    name: string
-    description: string
-  Phase:
-    name: string
-  Province:
-    name: string
-  Municipality:
-    name: string
-    province_id: id
-    phase_id: id
-  ProductionLine:
-    name: string
-  Tracing:
-    zone: string
-    producer: text
-    identification: string
-    phone: string
-    municipality_id: id
-    production_line_id: id
-    user_id: id
-  Activity:
-    name: string
-  DevelopedActivitie:
-    name: text
-    date_performed: date
-    employees: integer
-    product: string nullable
-    quantity: decimal nullable
-    measure_type: string
-    description: text nullable
-    images: text nullable
-    tracing_id: id
+  ActivityImage:
+    image_path: string
+    image_caption: string nullable
     activity_id: id
-

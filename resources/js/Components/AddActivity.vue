@@ -160,15 +160,41 @@
             </textarea>
             <template v-if="$v.formActivity.description.$error">
               <div class="invalid-feedback" v-if="!$v.formActivity.description.required">
-                Digite la Cantidad Total
+                Digite la Descripción
               </div>
             </template>
+            <div class="mt-4 mb-1">
+              <label class="font-weight-bold">Imágenes</label>
+              <el-upload
+                class="list_images"
+                :class="{'error_img' : errors}"
+                action="/"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                :on-change="updateImageList"
+                :on-remove="handleRemove"
+                :before-upload="beforeImageUpload"
+                :auto-upload="false"
+                :limit="2">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
+              <div v-if="errors">
+                <span class="text-danger" v-for="(item, index) in errors['images.0']" :key="index" >
+                  {{item}}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </form>
     </div>
     <div class="card-footer text-right" v-if="formActivity.tracing_id != 0 || formActivity.tracing_id ">
-      <button type="submit" @click.prevent="saveActivity()" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Agregar</button>
+      <button type="submit" @click.prevent="saveActivity()" class="btn btn-success" :disabled="isCreatingPost"><i class="fa fa-plus-square" aria-hidden="true"></i>
+      {{isCreatingPost ? 'Agregando...' : 'Agregar'}}
+      </button>
     </div>
   </div>
 </template>
@@ -190,7 +216,7 @@ export default {
         quantity: '',
         measure_type: '',
         description: '',
-        images: '',
+        imageList: [],
         metod: '',
         tracing_id: this.tracingId,
         activity_id: '',
@@ -202,8 +228,11 @@ export default {
       productStatus: false,
       quantityStatus: false,
       showTipo: false,
+      isCreatingPost: false,
+      dialogImageUrl: '',
+      dialogVisible: false,
+      errors: ''
     }
-
   },
   validations() {
     let formActivity = {
@@ -351,11 +380,76 @@ export default {
     } */
   },
   methods: {
+    updateImageList(file){
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      const isLt1M = file.size / 512 / 512 < 1;
+
+      this.formActivity.imageList.push(file.raw)
+    },
+    handlePictureCardPreview(file){
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    handleRemove(file, fileList){
+      let listImages = this.formActivity.imageList
+      let index = listImages.splice(listImages.findIndex(({uid}) => uid == file.uid), 1);
+      this.$delete(this.formActivity.imageList, index)
+      /* console.log(this.formActivity.imageList); */
+    },
+    beforeImageUpload(file){
+      console.log('Antes de subir')
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      const isLt1M = file.size / 512 / 512 < 1;
+
+      if (!isJPG || !isPNG) {
+        this.$swal({
+          position: 'top',
+          icon: 'error',
+          title: 'La imagen debe estar en formato JPG o PNG!',
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+          timer: 1500
+        })
+      }
+      if (!isLt1M) {
+        this.$swal({
+          position: 'top',
+          icon: 'error',
+          title: 'La imagen excede los 1MB!',
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+          timer: 1500
+        })
+      }
+      return isJPG && isLt1M;
+    },
     saveActivity(){
       let me = this
       me.$v.$touch()
       if (!this.$v.$invalid) {
-        axios.post('saveActivity', me.formActivity)
+        me.isCreatingPost = true
+        let formData = new FormData()
+
+        formData.append('date_performed' , me.formActivity.date_performed)
+        formData.append('phytosanitary_limitation' , me.formActivity.phytosanitary_limitation)
+        formData.append('employees', me.formActivity.employees)
+        formData.append('dose' , me.formActivity.dose)
+        formData.append('dose_type', me.formActivity.dose_type)
+        formData.append('product', me.formActivity.product)
+        formData.append('quantity' , me.formActivity.quantity)
+        formData.append('measure_type' , me.formActivity.measure_type)
+        formData.append('description', me.formActivity.description)
+        formData.append('metod', me.formActivity.metod)
+        formData.append('tracing_id' , me.formActivity.tracing_id)
+        formData.append('activity_id', me.formActivity.activity_id)
+
+        $.each(me.formActivity.imageList, function(key, image){
+          formData.append(`images[${key}]`, image)
+        })
+
+        axios.post('saveActivity', formData, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(res => {
           me.$swal({
             position: 'top',
@@ -366,9 +460,15 @@ export default {
             timer: 1500
           })
           me.resetForm()
+          me.isCreatingPost = false
           console.log(res)
         })
         .catch(err => {
+          me.isCreatingPost = false
+          if (err.response.status == 422) {
+            //preguntamos si el err es 422
+            me.errors = err.response.data.errors;
+          }
           console.error(err);
         })
       }else{
@@ -447,5 +547,41 @@ export default {
 <style lang="scss">
   .vs_select_custom .vs__dropdown-toggle {
     height: calc(1.6em + 0.75rem + 2px);
+  }
+  .list_images{
+    padding: 10px;
+    &.error_img{
+      border: 1px solid #e3342f;
+      border-radius: 4px;
+    }
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  .el-upload-list--picture-card .el-upload-list__item-thumbnail{
+    object-fit: cover;
+  }
+  .el-upload-list--picture-card .el-upload-list__item{
+    margin: 0 8px 0 0;
   }
 </style>

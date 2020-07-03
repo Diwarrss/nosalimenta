@@ -1,57 +1,45 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
 window.Vue = require('vue');
 import Vuex from 'vuex'
-Vue.use(Vuex)
+
 import store from './store';
 //import vue-sweetalert2
 import VueSweetalert2 from 'vue-sweetalert2';
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
-Vue.use(VueSweetalert2);
+
 //import vue-moment CONFIGURADO AL ESPAÑOL
 const moment = require("moment");
 require("moment/locale/es");
-Vue.use(require("vue-moment"), {
-    moment
-});
+
 //import vue2-datepicker
 import DatePicker from 'vue2-datepicker';
-Vue.use(DatePicker)
+
 import 'vue2-datepicker/index.css';
 //import vue-select
 import vSelect from "vue-select";
-Vue.component("v-select", vSelect);
+
 import "vue-select/dist/vue-select.css";
 //import vue-validation
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
+
+//import element ui
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(Vuex)
+Vue.use(VueSweetalert2);
+Vue.use(require("vue-moment"), {
+  moment
+});
+Vue.use(DatePicker)
+Vue.component("v-select", vSelect);
 Vue.use(Vuelidate)
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.use(ElementUI);
 /* Vue.component('home-admin', require('./views/admin/Home.vue').default); */
 Vue.component('home-client', require('./views/client/Home.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 const app = new Vue({
   el: '#app',

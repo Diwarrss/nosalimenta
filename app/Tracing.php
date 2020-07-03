@@ -59,6 +59,6 @@ class Tracing extends Model
 
     public function developedActivities()
     {
-        return $this->hasMany(\App\DevelopedActivitie::class, 'tracing_id', 'id')->with('activity');
+        return $this->hasMany(\App\DevelopedActivitie::class, 'tracing_id', 'id')->with('activity', 'activityImage');
     }
 }

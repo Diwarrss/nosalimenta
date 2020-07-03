@@ -147,7 +147,8 @@ return [
     */
 
     'attributes' => [
-      'phone' => 'celular'
+      'phone' => 'celular',
+      'images.*' => 'imágenes'
     ],
 
 ];

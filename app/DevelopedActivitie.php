@@ -57,4 +57,9 @@ class DevelopedActivitie extends Model
     {
         return $this->belongsTo(\App\Activity::class);
     }
+
+    public function activityImage()
+    {
+        return $this->hasMany(\App\ActivityImage::class, 'developed_activity_id');
+    }
 }
