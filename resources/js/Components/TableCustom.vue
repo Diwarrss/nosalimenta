@@ -1,67 +1,115 @@
 <template>
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr v-if="columns">
-          <th :id="item.name" scope="col" v-for="(item, index) in tableFields" :key="index">
-            {{item.title}}
-          </th>
-        </tr>
-      </thead>
-      <tbody v-if="paginate">
-        <tr v-if="!allData.total">
-          <td
-            :colspan="countVisibleFields"
-            class="alert alert-info text-center"
-          >Sin Datos!</td>
-        </tr>
-        <tr
-          v-else
-          v-for="(data, keyIndex) in allData.data" :key="keyIndex"
-          :item-index="keyIndex"
+  <div class="row">
+    <div class="col-sm-3 col-md-2 col-lg-2">
+      <div class="form-group">
+        <div class="input-group">
+          <select
+          class="form-control"
+          v-model="per_page_table"
+          @change="getData()"
           >
-          <template>
-            <td
-              v-for="(field, fieldIndex) in tableFields" :key="fieldIndex"
-              v-if="field.visible"
-              :class="bodyClass('vuetable-td-'+field.name, field)"
-              :style="{width: field.width}"
-              v-html="renderNormalField(field, data)"
-            ></td>
-          </template>
-        </tr>
-      </tbody>
-      <tbody v-else>
-        <tr v-if="!allData.length">
-          <td :colspan="countVisibleFields"
-            class="alert alert-info text-center"
-          >Sin Datos!</td>
-        </tr>
-        <tr
-          v-for="(data, keyIndex) in allData" :key="keyIndex"
-          :item-index="keyIndex"
-          >
-          <template>
-            <td
-              v-for="(field, fieldIndex) in tableFields" :key="fieldIndex"
-              v-if="field.visible"
-              :class="bodyClass('vuetable-td-'+field.name, field)"
-              :style="{width: field.width}"
-              v-html="renderNormalField(field, data)"
-            ></td>
-          </template>
-        </tr>
-      </tbody>
-    </table>
-    <!-- Implementa el vue pagination para poder cambiar pagina -->
-    <pagination
-      v-if="paginate"
-      :data="allData"
-      @pagination-change-page="getData"
-      align="center"
-      :limit="1"
-    ></pagination>
+          <option value="5" selected>5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-5 col-lg-5">
+      <div class="form-group">
+        <div class="input-group">
+          <select class="form-control" v-model="filter">
+            <option value="email" selected>E-Mail</option>
+            <option value="nombres">Nombre</option>
+            <option value="celular">Celular</option>
+          </select>
+          <!-- keydown para ejecutar cuando vayan escribiendo -->
+          <input
+          type="text"
+          placeholder="Escriba aquí"
+          v-model="value"
+          class="form-control"
+          />
+          <span class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-primary"
+            >
+              <i class="fa fa-search" aria-hidden="true"></i> Buscar
+            </button>
+          </span>
+        </div>
+      </div>
   </div>
+  <div class="col-md-5 mt-1">
+      <strong>Cant. Registros:</strong> {{allData.total}}
+  </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr v-if="columns">
+            <th :id="item.name" scope="col" v-for="(item, index) in tableFields" :key="index">
+              {{item.title}}
+            </th>
+          </tr>
+        </thead>
+        <tbody v-if="paginate">
+          <tr v-if="!allData.total">
+            <td
+              :colspan="countVisibleFields"
+              class="alert alert-info text-center"
+            >Sin Datos!</td>
+          </tr>
+          <tr
+            v-else
+            v-for="(data, keyIndex) in allData.data" :key="keyIndex"
+            :item-index="keyIndex"
+            >
+            <template>
+              <td
+                v-for="(field, fieldIndex) in tableFields" :key="fieldIndex"
+                v-if="field.visible"
+                :class="bodyClass('vuetable-td-'+field.name, field)"
+                :style="{width: field.width}"
+                v-html="renderNormalField(field, data)"
+              ></td>
+            </template>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr v-if="!allData.length">
+            <td :colspan="countVisibleFields"
+              class="alert alert-info text-center"
+            >Sin Datos!</td>
+          </tr>
+          <tr
+            v-for="(data, keyIndex) in allData" :key="keyIndex"
+            :item-index="keyIndex"
+            >
+            <template>
+              <td
+                v-for="(field, fieldIndex) in tableFields" :key="fieldIndex"
+                v-if="field.visible"
+                :class="bodyClass('vuetable-td-'+field.name, field)"
+                :style="{width: field.width}"
+                v-html="renderNormalField(field, data)"
+              ></td>
+            </template>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Implementa el vue pagination para poder cambiar pagina -->
+      <pagination
+        v-if="paginate"
+        :data="allData"
+        @pagination-change-page="getData"
+        align="center"
+        :limit="1"
+      ></pagination>
+    </div>
+  </div>
+
 </template>
 <script>
 export default {
@@ -75,8 +123,11 @@ export default {
   },
   data() {
     return {
-      allData: [Array, Object],
+      allData: {},
       tableFields: [],
+      per_page_table: this.per_page,
+      filter: [],
+      value: ''
     }
   },
   computed: {
@@ -101,7 +152,7 @@ export default {
       if (me.paginate) {
         axios.get(me.api_url +'?page=' + page,{
           params: {
-            per_page: me.per_page,
+            per_page: me.per_page_table,
             paginate: me.paginate,
             page: page
           }
@@ -113,7 +164,7 @@ export default {
       }else{
         axios.get(me.api_url, {
           params: {
-            per_page: me.per_page,
+            per_page: me.per_page_table,
             paginate: me.paginate
           }
         })

@@ -2,13 +2,21 @@
   <div class="card">
     <div class="card-header">
       <i class="fa fa-list-ol" aria-hidden="true"></i> Seguimientos
+      <button
+          type="submit"
+          class="btn btn-success"
+          id="descargar"
+          @click="downloadData"
+        >
+          <i class="fa fa-file-excel-o" aria-hidden="true"></i> Descargar
+        </button>
     </div>
     <div class="card-body">
       <TableCustom
         :api_url="api_url"
         :columns="columns"
-        :per_page="8"
-        :paginate="false" />
+        :per_page="5"
+        :paginate="true" />
     </div>
   </div>
 </template>
@@ -64,6 +72,11 @@ export default {
   },
   created() {
     this.$store.dispatch('getTracings')
-  }
+  },
+  methods: {
+    downloadData(){
+      console.log('descarga')
+    }
+  },
 }
 </script>

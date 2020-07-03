@@ -25,7 +25,17 @@ class TracingController extends Controller
         return Tracing::with('developedActivities', 'productionLine', 'municipality')->where('id', $request->id)->get();
       }else if (Auth::user()->rol_id === 1) {
         if ($paginate == 'true') {
-          return Tracing::with('user', 'developedActivities', 'productionLine', 'municipality')->paginate($per_page);
+          //realizar busqueda
+          if ($request->filter) {
+            $query = Tracing::query();
+
+            foreach ($request->filter as $filter => $value) {
+              $query->where($filter, 'LIKE', "%{$value}%");
+            }
+            return $query->with('developedActivities', 'productionLine', 'municipality')->paginate($per_page);
+          } else {
+            return Tracing::with('user', 'developedActivities', 'productionLine', 'municipality')->paginate($per_page);
+          }
         }else{
           return Tracing::with('user', 'developedActivities', 'productionLine', 'municipality')->latest()->take($per_page)->get();
         }

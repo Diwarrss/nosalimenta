@@ -28,6 +28,8 @@ import Vuelidate from 'vuelidate'
 //import element ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+//import vue-pagination
+Vue.component("pagination", require("laravel-vue-pagination"));
 
 Vue.use(Vuex)
 Vue.use(VueSweetalert2);
