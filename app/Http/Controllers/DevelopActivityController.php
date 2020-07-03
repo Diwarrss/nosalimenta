@@ -58,6 +58,7 @@ class DevelopActivityController extends Controller
             'measure_type' => $request->measure_type ? $request->measure_type :null,
             'description' => $request->description,
             'metod' => $request->metod ? $request->metod :null,
+            'technical_visit' => $request->technical_visit,
             'tracing_id' => $request->tracing_id,
             'activity_id' => $request->activity_id
           ]);

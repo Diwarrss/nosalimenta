@@ -25,6 +25,7 @@ class CreateDevelopedActivitiesTable extends Migration
             $table->string('measure_type')->nullable();
             $table->text('description');
             $table->string('metod')->nullable();
+            $table->string('technical_visit');
             $table->foreignId('tracing_id')->constrained()->cascadeOnDelete();
             $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

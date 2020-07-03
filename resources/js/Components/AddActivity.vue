@@ -92,11 +92,29 @@
               </div>
             </template>
           </div>
+          <div class="form-group col-md-2" v-if="showDescription">
+            <label class="font-weight-bold" for="Metod">Visita Técnica</label>
+            <select
+              v-model="formActivity.technical_visit"
+              id="Metod"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.technical_visit.$error }">
+              <option selected value="" disabled>Seleccionar...</option>
+              <option selected value="Si">Si</option>
+              <option selected value="No">No</option>
+            </select>
+            <template v-if="$v.formActivity.technical_visit.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.technical_visit.required">
+                Seleccione la Visita Tecnica
+              </div>
+            </template>
+          </div>
           <div class="form-group col-md-4" v-if="phytosanitaryLimitationStatus">
             <label class="font-weight-bold" for="inputphylimi">Limitantes Fitosanitarias <span class="text_limit font-weight-light">(Plaga, Arvense, Enfermedad)</span></label>
             <input
               v-model="formActivity.phytosanitary_limitation"
               type="text"
+              @input="formActivity.phytosanitary_limitation = $event.target.value.toUpperCase()"
               class="form-control"
               :class="{'is-invalid': $v.formActivity.phytosanitary_limitation.$error }"
               id="inputphylimi">
@@ -125,6 +143,7 @@
             <input
               v-model="formActivity.product"
               type="text"
+              @input="formActivity.product = $event.target.value.toUpperCase()"
               class="form-control"
               :class="{'is-invalid': $v.formActivity.product.$error }"
               id="inputproduct">
@@ -218,6 +237,7 @@ export default {
         description: '',
         imageList: [],
         metod: '',
+        technical_visit: '',
         tracing_id: this.tracingId,
         activity_id: '',
       },
@@ -250,6 +270,9 @@ export default {
           required,
         },
         description: {
+          required,
+        },
+        technical_visit: {
           required,
         }
       }
@@ -442,6 +465,7 @@ export default {
         formData.append('measure_type' , me.formActivity.measure_type)
         formData.append('description', me.formActivity.description)
         formData.append('metod', me.formActivity.metod)
+        formData.append('technical_visit', me.formActivity.technical_visit)
         formData.append('tracing_id' , me.formActivity.tracing_id)
         formData.append('activity_id', me.formActivity.activity_id)
 

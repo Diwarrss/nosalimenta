@@ -25,6 +25,7 @@ class DevelopedActivitie extends Model
       'description',
       'images',
       'metod',
+      'technical_visit',
       'tracing_id',
       'activity_id'
     ];

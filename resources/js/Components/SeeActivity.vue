@@ -47,12 +47,14 @@
               <th scope="col">Dosis</th>
               <th scope="col">Total Producto</th>
               <th scope="col">Mano de Obra</th>
+              <th scope="col">Visita Técnica</th>
+              <th scope="col">Metodo</th>
               <th scope="col">Imágenes</th>
             </tr>
           </thead>
           <tbody class="body_table">
             <tr v-if="!allDevelopedActivities.developed_activities.length">
-              <td colspan="8">
+              <td colspan="11">
                 <div class="alert alert-danger text-center" role="alert">
                  Sin Resultados!
                 </div>
@@ -67,6 +69,8 @@
               <th>{{ item.dose ? item.dose + item.dose_type : 'N/A'}}</th>
               <th>{{ item.quantity ? item.quantity : 'N/A'}}</th>
               <th>{{ item.employees }}</th>
+              <th>{{ item.technical_visit ? item.technical_visit : 'N/A'}}</th>
+              <th>{{ item.metod ? item.metod : 'N/A'}}</th>
               <th v-if="item.activity_image.length">
                 <div class="block">
                   <el-carousel height="60px" arrow="never">
@@ -93,7 +97,7 @@
           </div>
           <div class="modal-body">
             <div class="block" v-if="listImages.length">
-              <el-carousel height="350px">
+              <el-carousel height="500px">
                 <el-carousel-item v-for="(img, i) in listImages" :key="i">
                   <img :src="urlHost+'/uploads/'+img.image_path" class="img-fluid">
                 </el-carousel-item>
@@ -151,13 +155,13 @@ export default {
   .body_table{
     th{
       font-weight: 300;
+      vertical-align: middle !important;
     }
     th img{
       &:hover{
         cursor: pointer;
       }
     }
-
   }
 </style>
 <style lang="scss">
