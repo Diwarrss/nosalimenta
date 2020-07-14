@@ -201,8 +201,11 @@
                 <img width="100%" :src="dialogImageUrl" alt="">
               </el-dialog>
               <div v-if="errors">
-                <span class="text-danger" v-for="(item, index) in errors['images.0']" :key="index" >
-                  {{item}}
+                <span class="text-danger" v-if="errors['images.0']">
+                  La primera imagen pesa mas de 1024 kilobytes <br>
+                </span>
+                <span class="text-danger" v-if="errors['images.1']">
+                  La segunda imagen pesa mas de 1024 kilobytes
                 </span>
               </div>
             </div>

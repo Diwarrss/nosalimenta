@@ -61,11 +61,16 @@
                                   <i aria-hidden="true" class="fa fa-sign-in"></i>  {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
+                                <a class="btn btn-success" href="{{ route('register') }}"><i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                {{ __('Register') }}</a>
+
+
+
+                                {{--  @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif
+                                @endif  --}}
                             </div>
                         </div>
                     </form>

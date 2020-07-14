@@ -63,10 +63,23 @@ class TracingController extends Controller
           $tracing = Tracing::create($data);
           DB::commit(); //commit de la transaccion
 
-          return response()->json([
+          if ($tracing) {
+            return response()->json([
+              'type' => 'success',
+              'message' => 'Seguimiento creado con éxito',
+              'data' => $tracing
+            ], 201);
+          }else{
+            return response()->json([
+              'type' => 'error',
+              'message' => 'Error al guardar',
+              'data' => []
+            ], 204);
+          }
+          /* return response()->json([
             'message' => 'Seguimiento creado con éxito',
             'data' => $tracing
-          ], 201);
+          ], 201); */
         } catch (Exception $e) {
           DB::rollBack(); //si hay error no ejecute la transaccion
         }

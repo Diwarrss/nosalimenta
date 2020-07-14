@@ -18,6 +18,9 @@ class Tracing extends Model
       'producer',
       'identification',
       'phone',
+      'latitude',
+      'longitude',
+      'altitude',
       'municipality_id',
       'production_line_id',
       'user_id'

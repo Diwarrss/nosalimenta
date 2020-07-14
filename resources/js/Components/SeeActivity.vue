@@ -50,11 +50,12 @@
               <th scope="col">Visita Técnica</th>
               <th scope="col">Metodo</th>
               <th scope="col">Imágenes</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody class="body_table">
             <tr v-if="!allDevelopedActivities.developed_activities.length">
-              <td colspan="11">
+              <td colspan="12">
                 <div class="alert alert-danger text-center" role="alert">
                  Sin Resultados!
                 </div>
@@ -79,6 +80,11 @@
                     </el-carousel-item>
                   </el-carousel>
                 </div>
+              </th>
+              <th>
+                <button class="btn btn-info"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
+                <button class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</button>
+                <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
               </th>
             </tr>
           </tbody>

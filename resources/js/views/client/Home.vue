@@ -152,6 +152,50 @@
                       </div>
                     </template>
                   </div>
+                  <div class="form-text col-md-2 text-right textalign">
+                    <label class="font-weight-bold pt-2 mt-4" for="georeferencing">Georreferenciación:</label>
+                  </div>
+                  <div class="form-group col-md-1">
+                    <label class="font-weight-bold" for="lati">Latitud</label>
+                    <input
+                      v-model="formCreate.latitude"
+                      type="text"
+                      class="form-control"
+                      :class="{'is-invalid': $v.formCreate.latitude.$error }"
+                      id="inputphone">
+                    <template v-if="$v.formCreate.latitude.$error">
+                      <div class="invalid-feedback" v-if="!$v.formCreate.latitude.required">
+                        Obligatorio
+                      </div>
+                    </template>
+                  </div>
+                  <div class="form-group col-md-1">
+                    <label class="font-weight-bold" for="long">Longitud</label>
+                    <input
+                      v-model="formCreate.longitude"
+                      type="text"
+                      class="form-control"
+                      :class="{'is-invalid': $v.formCreate.longitude.$error }"
+                      id="inputphone">
+                    <template v-if="$v.formCreate.longitude.$error">
+                      <div class="invalid-feedback" v-if="!$v.formCreate.longitude.required">
+                        Obligatorio
+                      </div>
+                    </template>
+                  </div>
+                  <div class="form-group col-md-1">
+                    <label class="font-weight-bold" for="alti">Altitud</label>
+                    <input
+                      v-model="formCreate.altitude"
+                      type="text"
+                      class="form-control"
+                      :class="{'is-invalid': $v.formCreate.altitude.$error }"
+                      id="inputphone">
+                    <template v-if="$v.formCreate.altitude.$error">
+                      <div class="invalid-feedback" v-if="!$v.formCreate.altitude.required">
+                        Obligatorio
+                      </div>
+                    </template></div>
                 </div>
               </form>
             </div>
@@ -188,6 +232,9 @@ export default {
         producer: '',
         identification: '',
         phone: '',
+        latitude: '',
+        longitude: '',
+        altitude:'',
         production_line_id: ''
       },
       tracing_id: 0
@@ -241,6 +288,17 @@ export default {
         maxLength: maxLength(10)
       },
       production_line_id: {
+        required
+      },
+      latitude: {
+        required
+      }
+      ,
+      longitude: {
+        required
+      }
+      ,
+      altitude: {
         required
       }
     }
@@ -332,6 +390,9 @@ export default {
       this.formCreate.identification = ''
       this.formCreate.phone = ''
       this.formCreate.production_line_id = ''
+      this.formCreate.latitude = ''
+      this.formCreate.longitude = ''
+      this.formCreate.altitude = ''
     }
   }
 }
@@ -342,7 +403,12 @@ export default {
     font-size: 11px;
   }
 }
-  .vs_select_custom .vs__dropdown-toggle {
-    height: calc(1.6em + 0.75rem + 2px);
+.vs_select_custom .vs__dropdown-toggle {
+  height: calc(1.6em + 0.75rem + 2px);
+}
+@media (max-width: 768px)  {
+  .textalign {
+    text-align: center !important;
   }
+}
 </style>
