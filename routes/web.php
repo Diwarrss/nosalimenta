@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
   //DevelopActivityController
   Route::post('saveActivity', 'DevelopActivityController@store');
   Route::put('editActivity/{id}', 'DevelopActivityController@update');
-  Route::put('deleteActivity/{id}', 'DevelopActivityController@destroy');
+  Route::delete('deleteActivity/{id}', 'DevelopActivityController@destroy');
 
   //Route::get('developed-activities', 'DevelopActivityController@index');
   //ProductionLineController

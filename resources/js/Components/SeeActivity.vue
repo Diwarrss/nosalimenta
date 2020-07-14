@@ -464,7 +464,7 @@ export default {
         if (result.value) {
           //Inactivar
           if (item.id) {
-            axios.put( `deleteActivity/${item.id}`)
+            axios.delete( `deleteActivity/${item.id}`)
             .then(res => {
               me.$swal({
                 position: 'top',
