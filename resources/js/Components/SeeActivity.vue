@@ -72,7 +72,7 @@
               <th>{{ item.employees }}</th>
               <th>{{ item.technical_visit ? item.technical_visit : 'N/A'}}</th>
               <th>{{ item.metod ? item.metod : 'N/A'}}</th>
-              <th v-if="item.activity_image.length">
+              <th>
                 <div class="block">
                   <el-carousel height="60px" arrow="never">
                     <el-carousel-item v-for="(image, indexImage) in item.activity_image" :key="indexImage">
@@ -82,9 +82,9 @@
                 </div>
               </th>
               <th>
-                <button class="btn btn-info"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
-                <button class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</button>
-                <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
+                <button class="btn btn-info" @click="infoModal(item, index, true)"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
+                <button class="btn btn-warning" @click="infoModal(item, index, false)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</button>
+                <button class="btn btn-danger" @click="deletefiel(item)"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
               </th>
             </tr>
           </tbody>
@@ -113,6 +113,165 @@
         </div>
       </div>
     </div>
+    <!-- info modal -->
+    <div class="modal" id="modal-view" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" v-if="viewOnlly"><i class="fa fa-eye" aria-hidden="true"></i> {{ tittleModal }}</h5>
+            <h5 class="modal-title" v-else><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ tittleModal }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <b-form @submit="saveData" v-if="show">
+              <div class="mb-3">
+                <label class="form-group" for="date">Fecha</label>
+                <input
+                v-model="form.date_performed"
+                :disabled="viewOnlly ? true : false"
+                class="form-control"
+                type="date"
+                id="date"
+                required>
+              </div>
+
+
+              <!-- <div>
+                <label for="example-input">Fecha:</label>
+                <b-input-group class="mb-3">
+                  <b-form-input
+                    id="example-input"
+                    v-model="form.date_performed"
+                    type="text"
+                    placeholder="YYYY-MM-DD"
+                    autocomplete="off"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-form-datepicker
+                      v-model="form.date_performed"
+                      button-only
+                      right
+                      locale="en-US"
+                      aria-controls="example-input"
+                      @context="onContext"
+                    ></b-form-datepicker>
+                  </b-input-group-append>
+                </b-input-group>
+              </div> -->
+
+              <!-- <div>
+                <label for="input-date">Fecha</label>
+                <b-form-datepicker id="input-date" v-model="form.date_performed" class="mb-2"></b-form-datepicker>
+              </div> -->
+
+              <b-form-group v-if="showTipo" id="input-group-metod" label="Metodo:" label-for="input-metod">
+                <b-form-select
+                  id="input-metod"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.metod"
+                  required>
+                <b-form-select-option :value="null">Seleccionar...</b-form-select-option>
+                <b-form-select-option :value="'Manual'">Manual</b-form-select-option>
+                <b-form-select-option :value="'Mecánico'">Mecánico</b-form-select-option>
+                </b-form-select>
+              </b-form-group>
+
+              <b-form-group id="input-group-employees" label="Mano de obra:" label-for="input-employees">
+                <b-form-input
+                  id="input-employees"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.employees"
+                  placeholder="Cantidad mano de obra"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group id="input-group-technical_visit" label="Visita Técnica:" label-for="input-technical_visit">
+                <b-form-select
+                  id="input-technical_visit"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.technical_visit"
+                  required>
+                <b-form-select-option :value="null">Seleccionar...</b-form-select-option>
+                <b-form-select-option :value="'Si'">Si</b-form-select-option>
+                <b-form-select-option :value="'No'">No</b-form-select-option>
+                </b-form-select>
+              </b-form-group>
+
+              <b-form-group v-if="phytosanitaryLimitationStatus" id="input-group-phytosanitary_limitation" label="Limitantes fitosanitarias:" label-for="input-phytosanitary_limitation">
+                <b-form-input
+                  id="input-phytosanitary_limitation"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.phytosanitary_limitation"
+                  placeholder="Nombre limitantes fitosanitarias"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group v-if="doseStatus" id="input-group-dose" label="Dosis:" label-for="input-dose">
+                <b-form-input
+                  id="input-dose"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.dose"
+                  placeholder="Dosis usada"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group v-if="productStatus" id="input-group-product" label="Producto:" label-for="input-product">
+                <b-form-input
+                  id="input-product"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.product"
+                  placeholder="Nombre del producto"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group v-if="quantityStatus" id="input-group-quantity" label="Cantidad:" label-for="input-quantity">
+                <b-form-input
+                  id="input-quantity"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.quantity"
+                  placeholder="Cantidad del producto"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group id="input-group-description" label="Descripción:" label-for="input-description">
+                <b-form-textarea
+                  id="input-description"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.description"
+                  placeholder="Descrpcion de la actividad"
+                  rows="3"
+                  max-rows="6"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+              <div
+                v-if="!viewOnlly"
+                class="text-center">
+                <b-button
+                  type="submit"
+                  variant="success"><i class="fa fa-refresh" aria-hidden="true"></i> Actualizar</b-button>
+                <b-button
+                  variant="danger"
+                  @click="hideModal"><i class="fa fa-times-circle" aria-hidden="true"></i> Cancelar</b-button>
+              </div>
+              <!-- <b-button type="submit" variant="primary">Submit</b-button>
+              <b-button type="reset" variant="danger">Reset</b-button> -->
+            </b-form>
+          </div>
+          <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -121,7 +280,31 @@ export default {
   data() {
     return {
       tracing_id: '',
-      listImages: []
+      listImages: [],
+      form: {
+        modal: 'modal-view',
+        id: null,
+        date_performed: null,
+        phytosanitary_limitation: null,
+        employees: null,
+        dose: null,
+        dose_type: null,
+        product: null,
+        quantity: null,
+        measure_type: null,
+        description: null,
+        metod: null,
+        technical_visit: null,
+        description: null
+      },
+      tittleModal: null,
+      viewOnlly: false,
+      show: true,
+      doseStatus: false,
+      phytosanitaryLimitationStatus: false,
+      productStatus: false,
+      quantityStatus: false,
+      showTipo: false,
     }
   },
   computed: {
@@ -153,6 +336,130 @@ export default {
     },
     closeModal() {
       $('#myModal').modal('hide')
+    },
+    infoModal(item, index, view) {
+      console.log(item)
+      console.log(index)
+      let me = this
+      if (view) {
+        me.tittleModal = 'Ver ' + item.activity.name
+        me.viewOnlly = true
+      } else {
+        me.viewOnlly = false
+        me.tittleModal = 'Editar ' + item.activity.name
+      }
+      me.form.id = item.id
+      me.form.date_performed = item.date_performed
+      me.form.phytosanitary_limitation = item.phytosanitary_limitation
+      me.form.employees = item.employees
+      me.form.dose = item.dose
+      me.form.dose_type = item.dose_type
+      me.form.product = item.product
+      me.form.quantity = item.quantity
+      me.form.measure_type = item.measure_type
+      me.form.description = item.description
+      me.form.metod = item.metod
+      me.form.technical_visit = item.technical_visit
+      if (item.activity.id === 2) {
+        me.showTipo = true
+      }else{
+        me.showTipo = false
+      }
+      if (item.activity.phytosanitary_limitation_status) {
+        me.phytosanitaryLimitationStatus = true
+      }else{
+        me.phytosanitaryLimitationStatus = false
+      }
+      if (item.activity.product_status) {
+        me.productStatus = true
+      }else{
+        me.productStatus = false
+      }
+      if (item.activity.quantity_status) {
+        me.quantityStatus = true
+      }else{
+        me.quantityStatus = false
+      }
+      if (item.activity.dose_status) {
+        me.doseStatus = true
+      }else{
+        me.doseStatus = false
+      }
+      $('#modal-view').modal('show')
+    },
+    hideModal() {
+      $('#modal-view').modal('hide')
+      this.viewOnlly = false
+      this.form = {
+        id: null,
+        date_performed: null,
+        phytosanitary_limitation: null,
+        employees: null,
+        dose: null,
+        dose_type: null,
+        product: null,
+        quantity: null,
+        measure_type: null,
+        description: null,
+        metod: null,
+        technical_visit: null,
+        description: null
+      }
+    },
+    saveData(evt) {
+      evt.preventDefault()
+      axios.put( `editActivity/${this.form.id}`, this.form)
+      .then(res => {
+        this.$swal({
+          position: 'top',
+          icon: 'success',
+          title: res.data.message,
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+          timer: 1500
+        })
+        this.changeTracing(this.tracing_id)
+        this.hideModal()
+      })
+
+      /* alert(JSON.stringify(this.form)) */
+    },
+    deletefiel(item) {
+      let me = this
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+      }).then(result => {
+        if (result.value) {
+          //Inactivar
+          if (item.id) {
+            axios.put( `deleteActivity/${item.id}`)
+            .then(res => {
+              me.$swal({
+                position: 'top',
+                icon: 'success',
+                title: res.data.message,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                timer: 1500
+              })
+              me.changeTracing(me.tracing_id)
+              me.hideModal()
+            })
+            //alert(JSON.stringify(params))
+          }
+          /* this.$swal(
+            'Inactivado!',
+            'La dependencia o persona se desactivo.',
+            'success'
+          ) */
+        }
+      })
     }
   }
 }

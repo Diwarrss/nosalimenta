@@ -28,6 +28,10 @@ import Vuelidate from 'vuelidate'
 //import element ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+
+//Importar vue-bootstrap
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
 //import vue-pagination
 Vue.component("pagination", require("laravel-vue-pagination"));
 
@@ -40,6 +44,9 @@ Vue.use(DatePicker)
 Vue.component("v-select", vSelect);
 Vue.use(Vuelidate)
 Vue.use(ElementUI);
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 /* Vue.component('home-admin', require('./views/admin/Home.vue').default); */
 Vue.component('home-client', require('./views/client/Home.vue').default);
 

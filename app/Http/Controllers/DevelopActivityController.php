@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ActivityImage;
 use App\DevelopedActivitie;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -118,9 +119,51 @@ class DevelopActivityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
-        //
+      try {
+        DB::beginTransaction();
+
+        /* $data = $request->all(); */
+        $activity = DevelopedActivitie::find($id);
+
+        $activity->date_performed = $request->date_performed;
+        $activity->phytosanitary_limitation = $request->phytosanitary_limitation;
+        $activity->employees = $request->employees;
+        $activity->dose = $request->dose;
+        $activity->dose_type = $request->dose_type;
+        $activity->product = $request->product;
+        $activity->quantity = $request->quantity;
+        $activity->measure_type = $request->measure_type;
+        $activity->description = $request->description;
+        $activity->metod = $request->metod;
+        $activity->technical_visit = $request->technical_visit;
+        $activity->description = $request->description;
+        $activity->save();
+        DB::commit(); //commit de la transaccion
+
+        if ($activity) {
+          return response()->json([
+            'type' => 'success',
+            'message' => 'Actualizado con éxito',
+            'data' => $activity
+          ], 202);
+        }else{
+          return response()->json([
+            'type' => 'error',
+            'message' => 'Error al actualizar',
+            'data' => []
+          ], 204);
+        }
+
+      } catch (Exception $e) {
+        return response()->json([
+          'type' => 'error',
+          'message' => 'Error al actualizar',
+          'data' => []
+        ], 204);
+        DB::rollBack(); //si hay error no ejecute la transaccion
+      }
     }
 
     /**
@@ -131,6 +174,31 @@ class DevelopActivityController extends Controller
      */
     public function destroy($id)
     {
-        //
+      try {
+        $develop = DevelopedActivitie::find($id);
+        $develop->delete();
+        DB::commit();
+
+        if ($develop) {
+          return response()->json([
+            'type' => 'success',
+            'message' => 'Registro eliminado',
+            'data' => $develop
+          ], 202);
+        }else{
+          return response()->json([
+            'type' => 'error',
+            'message' => 'Error al eliminar',
+            'data' => []
+          ], 204);
+        }
+      } catch (Exception $e) {
+        return response()->json([
+          'type' => 'error',
+          'message' => 'Error al eliminar',
+          'data' => []
+        ], 204);
+        DB::rollBack(); //si hay error no ejecute la transaccion
+      }
     }
 }
