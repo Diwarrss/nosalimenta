@@ -125,7 +125,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <b-form @submit="saveData" v-if="show">
+            <b-form @submit="saveData" v-if="show" class="was-validated">
               <div class="mb-3">
                 <label class="form-group" for="date">Fecha</label>
                 <input
@@ -135,6 +135,9 @@
                 type="date"
                 id="date"
                 required>
+                <div class="invalid-feedback">
+                  Seleccione la fecha
+                </div>
               </div>
 
 
@@ -176,6 +179,9 @@
                 <b-form-select-option :value="'Manual'">Manual</b-form-select-option>
                 <b-form-select-option :value="'Mecánico'">Mecánico</b-form-select-option>
                 </b-form-select>
+                <div class="invalid-feedback">
+                  Seleccione el método
+                </div>
               </b-form-group>
 
               <b-form-group id="input-group-employees" label="Mano de obra:" label-for="input-employees">
@@ -186,6 +192,9 @@
                   placeholder="Cantidad mano de obra"
                   required
                 ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite la mano de obra
+                </div>
               </b-form-group>
 
               <b-form-group id="input-group-technical_visit" label="Visita Técnica:" label-for="input-technical_visit">
@@ -198,6 +207,9 @@
                 <b-form-select-option :value="'Si'">Si</b-form-select-option>
                 <b-form-select-option :value="'No'">No</b-form-select-option>
                 </b-form-select>
+                <div class="invalid-feedback">
+                  Seleccione la visita técnica
+                </div>
               </b-form-group>
 
               <b-form-group v-if="phytosanitaryLimitationStatus" id="input-group-phytosanitary_limitation" label="Limitantes fitosanitarias:" label-for="input-phytosanitary_limitation">
@@ -208,6 +220,9 @@
                   placeholder="Nombre limitantes fitosanitarias"
                   required
                 ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite limitantes fitosanitarias
+                </div>
               </b-form-group>
 
               <b-form-group v-if="doseStatus" id="input-group-dose" label="Dosis:" label-for="input-dose">
@@ -218,6 +233,9 @@
                   placeholder="Dosis usada"
                   required
                 ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite dosis
+                </div>
               </b-form-group>
 
               <b-form-group v-if="productStatus" id="input-group-product" label="Producto:" label-for="input-product">
@@ -228,6 +246,9 @@
                   placeholder="Nombre del producto"
                   required
                 ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite el producto
+                </div>
               </b-form-group>
 
               <b-form-group v-if="quantityStatus" id="input-group-quantity" label="Cantidad:" label-for="input-quantity">
@@ -238,6 +259,9 @@
                   placeholder="Cantidad del producto"
                   required
                 ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite la cantidad de producto
+                </div>
               </b-form-group>
 
               <b-form-group id="input-group-description" label="Descripción:" label-for="input-description">
@@ -245,11 +269,14 @@
                   id="input-description"
                   :disabled="viewOnlly ? true : false"
                   v-model="form.description"
-                  placeholder="Descrpcion de la actividad"
+                  placeholder="Descripción de la actividad"
                   rows="3"
                   max-rows="6"
                   required
                 ></b-form-textarea>
+                <div class="invalid-feedback">
+                  Digite la descripción
+                </div>
               </b-form-group>
               <div
                 v-if="!viewOnlly"
@@ -295,7 +322,6 @@ export default {
         description: null,
         metod: null,
         technical_visit: null,
-        description: null
       },
       tittleModal: null,
       viewOnlly: false,
