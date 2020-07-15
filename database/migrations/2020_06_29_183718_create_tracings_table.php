@@ -19,9 +19,6 @@ class CreateTracingsTable extends Migration
             $table->text('producer');
             $table->string('identification', 15);
             $table->string('phone');
-            $table->string('latitude');
-            $table->string('longitude');
-            $table->string('altitude');
             $table->foreignId('municipality_id')->constrained()->cascadeOnDelete();
             $table->foreignId('production_line_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
