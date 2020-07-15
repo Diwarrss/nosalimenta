@@ -1,4 +1,4 @@
-require('./bootstrap');
+//require('./bootstrap');
 
 window.Vue = require('vue');
 import Vuex from 'vuex'
@@ -22,8 +22,8 @@ import vSelect from "vue-select";
 
 import "vue-select/dist/vue-select.css";
 //import vue-validation
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
+// import Vue from 'vue'
+// import Vuelidate from 'vuelidate'
 
 //import element ui
 import ElementUI from 'element-ui';
@@ -42,7 +42,7 @@ Vue.use(require("vue-moment"), {
 });
 Vue.use(DatePicker)
 Vue.component("v-select", vSelect);
-Vue.use(Vuelidate)
+//Vue.use(Vuelidate)
 Vue.use(ElementUI);
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
