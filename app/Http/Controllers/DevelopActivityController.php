@@ -67,7 +67,7 @@ class DevelopActivityController extends Controller
           if ($images) {
             //validamos las imagenes antes de guardar
             $request->validate([
-              'images.*' => 'image|mimes:jpeg,png,jpg|max:1024'
+              'images.*' => 'image|mimes:jpeg,png,jpg|max:4092'
             ]);
             /*Agregar Imagenes a DevelopedActivitie*/
             foreach ($images as $image) {
@@ -175,6 +175,8 @@ class DevelopActivityController extends Controller
     public function destroy($id)
     {
       try {
+        DB::beginTransaction();
+
         $develop = DevelopedActivitie::find($id);
         $develop->delete();
         DB::commit();

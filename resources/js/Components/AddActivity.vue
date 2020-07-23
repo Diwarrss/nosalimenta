@@ -78,7 +78,7 @@
               </div>
             </template>
           </div>
-          <div class="form-group col-md-2" v-if="showDescription">
+          <div class="form-group col-md-2" v-if="showDescription && !showMV">
             <label class="font-weight-bold" for="date">Mano de obra</label>
             <input
               v-model="formActivity.employees"
@@ -92,7 +92,7 @@
               </div>
             </template>
           </div>
-          <div class="form-group col-md-2" v-if="showDescription">
+          <div class="form-group col-md-2" v-if="showDescription && !showMV">
             <label class="font-weight-bold" for="Metod">Visita Técnica</label>
             <select
               v-model="formActivity.technical_visit"
@@ -202,10 +202,10 @@
               </el-dialog>
               <div v-if="errors">
                 <span class="text-danger" v-if="errors['images.0']">
-                  La primera imagen pesa mas de 1024 kilobytes <br>
+                  La primera imagen pesa mas de 4092 kilobytes <br>
                 </span>
                 <span class="text-danger" v-if="errors['images.1']">
-                  La segunda imagen pesa mas de 1024 kilobytes
+                  La segunda imagen pesa mas de 4092 kilobytes
                 </span>
               </div>
             </div>
@@ -251,6 +251,7 @@ export default {
       productStatus: false,
       quantityStatus: false,
       showTipo: false,
+      showMV: false,
       isCreatingPost: false,
       dialogImageUrl: '',
       dialogVisible: false,
@@ -258,130 +259,151 @@ export default {
     }
   },
   validations() {
-    let formActivity = {
-      formActivity: {
-        date_performed: {
-          required
-        },
-        employees:{
-          required,
-        },
-        tracing_id: {
-          required,
-        },
-        activity_id: {
-          required,
-        },
-        description: {
-          required,
-        },
-        technical_visit: {
-          required,
-        }
-      }
-    }
-    if ((!this.showTipo) && (!this.phytosanitaryLimitationStatus) && (this.productStatus) && (!this.doseStatus) && (this.quantityStatus)) {
-      formActivity = {
+    /* console.log(this.activity.id) */
+    if (this.showMV) {
+      let formActivity = {
         formActivity: {
-          ...formActivity.formActivity,
-          product: {
+          date_performed: {
+            required
+          },
+          tracing_id: {
             required,
           },
-          quantity: {
+          activity_id: {
             required,
           },
-          measure_type: {
+          description: {
             required,
           }
         }
       }
       return formActivity
-    }
-    else if ((!this.showTipo) && (!this.phytosanitaryLimitationStatus) && (this.productStatus) && (this.doseStatus) && (this.quantityStatus)) {
-      formActivity = {
+    } else {
+      let formActivity = {
         formActivity: {
-          ...formActivity.formActivity,
-          product: {
+          date_performed: {
+            required
+          },
+          employees:{
             required,
           },
-          dose: {
+          tracing_id: {
             required,
           },
-          dose_type: {
+          activity_id: {
             required,
           },
-          quantity: {
+          description: {
             required,
           },
-          measure_type: {
+          technical_visit: {
             required,
           }
         }
       }
-      return formActivity
-    }
-    else if ((!this.showTipo) && (this.phytosanitaryLimitationStatus) && (this.productStatus) && (this.doseStatus) && (this.quantityStatus)) {
-      formActivity = {
-        formActivity: {
-          ...formActivity.formActivity,
-          product: {
-            required,
-          },
-          dose: {
-            required,
-          },
-          dose_type: {
-            required,
-          },
-          quantity: {
-            required,
-          },
-          measure_type: {
-            required,
-          },
-          phytosanitary_limitation: {
-            required,
+      if ((!this.showTipo) && (!this.phytosanitaryLimitationStatus) && (this.productStatus) && (!this.doseStatus) && (this.quantityStatus)) {
+        formActivity = {
+          formActivity: {
+            ...formActivity.formActivity,
+            product: {
+              required,
+            },
+            quantity: {
+              required,
+            },
+            measure_type: {
+              required,
+            }
           }
         }
+        return formActivity
       }
-      return formActivity
-    }
-    else if ((!this.showTipo) && (!this.phytosanitaryLimitationStatus) && (!this.productStatus) && (!this.doseStatus) && (this.quantityStatus)) {
-      formActivity = {
-        formActivity: {
-          ...formActivity.formActivity,
-          quantity: {
-            required,
-          },
-          measure_type: {
-            required,
+      else if ((!this.showTipo) && (!this.phytosanitaryLimitationStatus) && (this.productStatus) && (this.doseStatus) && (this.quantityStatus)) {
+        formActivity = {
+          formActivity: {
+            ...formActivity.formActivity,
+            product: {
+              required,
+            },
+            dose: {
+              required,
+            },
+            dose_type: {
+              required,
+            },
+            quantity: {
+              required,
+            },
+            measure_type: {
+              required,
+            }
           }
         }
+        return formActivity
       }
-      return formActivity
-    }
-    else if ((this.showTipo) && (!this.phytosanitaryLimitationStatus) && (this.productStatus) && (!this.doseStatus) && (this.quantityStatus)) {
-      formActivity = {
-        formActivity: {
-          ...formActivity.formActivity,
-          metod: {
-            required,
-          },
-          product: {
-            required,
-          },
-          quantity: {
-            required,
-          },
-          measure_type: {
-            required,
+      else if ((!this.showTipo) && (this.phytosanitaryLimitationStatus) && (this.productStatus) && (this.doseStatus) && (this.quantityStatus)) {
+        formActivity = {
+          formActivity: {
+            ...formActivity.formActivity,
+            product: {
+              required,
+            },
+            dose: {
+              required,
+            },
+            dose_type: {
+              required,
+            },
+            quantity: {
+              required,
+            },
+            measure_type: {
+              required,
+            },
+            phytosanitary_limitation: {
+              required,
+            }
           }
         }
+        return formActivity
       }
-      return formActivity
-    }
-    else {
-      return formActivity
+      else if ((!this.showTipo) && (!this.phytosanitaryLimitationStatus) && (!this.productStatus) && (!this.doseStatus) && (this.quantityStatus)) {
+        formActivity = {
+          formActivity: {
+            ...formActivity.formActivity,
+            quantity: {
+              required,
+            },
+            measure_type: {
+              required,
+            }
+          }
+        }
+        return formActivity
+      }
+      else if ((this.showTipo) && (!this.phytosanitaryLimitationStatus) && (this.productStatus) && (!this.doseStatus) && (this.quantityStatus)) {
+        formActivity = {
+          formActivity: {
+            ...formActivity.formActivity,
+            metod: {
+              required,
+            },
+            product: {
+              required,
+            },
+            quantity: {
+              required,
+            },
+            measure_type: {
+              required,
+            }
+          }
+        }
+        return formActivity
+      }
+      else {
+        return formActivity
+      }
     }
   },
   computed: {
@@ -409,7 +431,7 @@ export default {
     updateImageList(file){
       const isJPG = file.type === 'image/jpeg';
       const isPNG = file.type === 'image/png';
-      const isLt1M = file.size / 512 / 512 < 1;
+      const isLt1M = file.size / 2048 / 2048 < 4;
 
       this.formActivity.imageList.push(file.raw)
     },
@@ -427,7 +449,7 @@ export default {
       console.log('Antes de subir')
       const isJPG = file.type === 'image/jpeg';
       const isPNG = file.type === 'image/png';
-      const isLt1M = file.size / 512 / 512 < 1;
+      const isLt1M = file.size / 2000 / 2000 < 4;
 
       if (!isJPG || !isPNG) {
         this.$swal({
@@ -443,7 +465,7 @@ export default {
         this.$swal({
           position: 'top',
           icon: 'error',
-          title: 'La imagen excede los 1MB!',
+          title: 'La imagen excede los 4MB!',
           showConfirmButton: true,
           confirmButtonText: 'Aceptar',
           timer: 1500
@@ -519,6 +541,11 @@ export default {
         me.showDescription = true
       }else{
         me.showDescription = false
+      }
+      if (me.activity.id === 18) {
+        me.showMV = true
+      }else{
+        me.showMV = false
       }
       if (me.activity.id === 2) {
         me.showTipo = true

@@ -71,7 +71,7 @@ class ActivitySeeder extends Seeder
         [
           'name' => 'APLICACIÓN DE INSECTICIDA',
           'dose_unity' => 'cc/Bomba 20 Litros',
-          'quantity_unity' => 'Litro',
+          'quantity_unity' => 'Litros',
           'phytosanitary_limitation_status' => true,
           'product_status' => true,
           'dose_status' => true,
@@ -82,7 +82,7 @@ class ActivitySeeder extends Seeder
         [
           'name' => 'APLICACIÓN DE HERBICIDA',
           'dose_unity' => 'cc/Bomba 20 Litros',
-          'quantity_unity' => 'Litro',
+          'quantity_unity' => 'Litros',
           'phytosanitary_limitation_status' => true,
           'product_status' => true,
           'dose_status' => true,
@@ -93,7 +93,7 @@ class ActivitySeeder extends Seeder
         [
           'name' => 'APLICACIÓN DE FUNGICIDA',
           'dose_unity' => 'cc/Bomba 20 Litros',
-          'quantity_unity' => 'Litro',
+          'quantity_unity' => 'Litros',
           'phytosanitary_limitation_status' => true,
           'product_status' => true,
           'dose_status' => true,
