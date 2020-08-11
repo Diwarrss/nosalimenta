@@ -161,13 +161,12 @@
                       v-model="formCreate.latitude"
                       type="text"
                       class="form-control"
-                      :class="{'is-invalid': $v.formCreate.latitude.$error }"
                       id="inputphone">
-                    <template v-if="$v.formCreate.latitude.$error">
+                    <!-- <template v-if="$v.formCreate.latitude.$error">
                       <div class="invalid-feedback" v-if="!$v.formCreate.latitude.required">
                         Obligatorio
                       </div>
-                    </template>
+                    </template> -->
                   </div>
                   <div class="form-group col-md-1">
                     <label class="font-weight-bold" for="long">Longitud</label>
@@ -175,13 +174,12 @@
                       v-model="formCreate.longitude"
                       type="text"
                       class="form-control"
-                      :class="{'is-invalid': $v.formCreate.longitude.$error }"
                       id="inputphone">
-                    <template v-if="$v.formCreate.longitude.$error">
+                    <!-- <template v-if="$v.formCreate.longitude.$error">
                       <div class="invalid-feedback" v-if="!$v.formCreate.longitude.required">
                         Obligatorio
                       </div>
-                    </template>
+                    </template> -->
                   </div>
                   <div class="form-group col-md-1">
                     <label class="font-weight-bold" for="alti">Altitud</label>
@@ -189,13 +187,13 @@
                       v-model="formCreate.altitude"
                       type="text"
                       class="form-control"
-                      :class="{'is-invalid': $v.formCreate.altitude.$error }"
                       id="inputphone">
-                    <template v-if="$v.formCreate.altitude.$error">
+                    <!-- <template v-if="$v.formCreate.altitude.$error">
                       <div class="invalid-feedback" v-if="!$v.formCreate.altitude.required">
                         Obligatorio
                       </div>
-                    </template></div>
+                    </template> :class="{'is-invalid': $v.formCreate.altitude.$error }"-->
+                  </div>
                 </div>
               </form>
             </div>
@@ -289,7 +287,7 @@ export default {
       },
       production_line_id: {
         required
-      },
+      }/* ,
       latitude: {
         required
       }
@@ -300,7 +298,7 @@ export default {
       ,
       altitude: {
         required
-      }
+      } */
     }
   },
   /* beforeCreate(){
@@ -393,6 +391,7 @@ export default {
       this.formCreate.latitude = ''
       this.formCreate.longitude = ''
       this.formCreate.altitude = ''
+      this.$v.$reset();
     }
   }
 }
