@@ -39,6 +39,7 @@ class DevelopActivityController extends Controller
      */
     public function store(Request $request)
     {
+      //return $request;
       if (!$request->ajax()) return redirect('/');
 
       $images = $request->images;
@@ -61,7 +62,17 @@ class DevelopActivityController extends Controller
             'metod' => $request->metod ? $request->metod :null,
             'technical_visit' => $request->technical_visit,
             'tracing_id' => $request->tracing_id,
-            'activity_id' => $request->activity_id
+            'activity_id' => $request->activity_id,
+            'land_tenure' => $request->land_tenure ? $request->land_tenure : null,
+            'total_area' => $request->total_area ? $request->total_area : null,
+            'condition' => $request->condition ? $request->condition : null,
+            'score' => $request->score ? $request->score : null,
+            'family_nucleus' => $request->family_nucleus ? $request->family_nucleus : null,
+            'approximate_date' => $request->approximate_date ? $request->approximate_date : null,
+            'projected_amount' => $request->projected_amount ? $request->projected_amount : null,
+            'potential_buyers' => $request->potential_buyers ? $request->potential_buyers : null,
+            'sown_area' => $request->sown_area,
+            'costs' => $request->costs ? $request->costs : null,
           ]);
 
           if ($images) {
@@ -139,6 +150,16 @@ class DevelopActivityController extends Controller
         $activity->metod = $request->metod;
         $activity->technical_visit = $request->technical_visit;
         $activity->description = $request->description;
+        $activity->land_tenure = $request->land_tenure;
+        $activity->total_area = $request->total_area;
+        $activity->condition = $request->condition;
+        $activity->score = $request->score;
+        $activity->family_nucleus = $request->family_nucleus;
+        $activity->approximate_date = $request->approximate_date;
+        $activity->projected_amount = $request->projected_amount;
+        $activity->potential_buyers = $request->potential_buyers;
+        $activity->sown_area = $request->sown_area;
+        $activity->costs = $request->costs;
         $activity->save();
         DB::commit(); //commit de la transaccion
 

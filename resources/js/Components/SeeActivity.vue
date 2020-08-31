@@ -140,7 +140,6 @@
                 </div>
               </div>
 
-
               <!-- <div>
                 <label for="example-input">Fecha:</label>
                 <b-input-group class="mb-3">
@@ -184,7 +183,7 @@
                 </div>
               </b-form-group>
 
-              <b-form-group id="input-group-employees" label="Mano de obra:" label-for="input-employees">
+              <b-form-group v-if="activity_id != 19 && activity_id != 18" id="input-group-employees" label="Mano de obra:" label-for="input-employees">
                 <b-form-input
                   id="input-employees"
                   :disabled="viewOnlly ? true : false"
@@ -197,7 +196,7 @@
                 </div>
               </b-form-group>
 
-              <b-form-group id="input-group-technical_visit" label="Visita Técnica:" label-for="input-technical_visit">
+              <b-form-group v-if="activity_id != 19 && activity_id != 18" id="input-group-technical_visit" label="Visita Técnica:" label-for="input-technical_visit">
                 <b-form-select
                   id="input-technical_visit"
                   :disabled="viewOnlly ? true : false"
@@ -264,6 +263,158 @@
                 </div>
               </b-form-group>
 
+              <b-form-group id="input-group-costs" label="Costos (Pesos Colombianos):" label-for="input-costs">
+                <b-form-input
+                  id="input-costs"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.costs"
+                  placeholder="Cantidad del producto"
+                  required
+                ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite los Costos
+                </div>
+              </b-form-group>
+
+              <div v-if="activity_id === 18" class="mb-3">
+                <label class="form-group" for="date">Fecha Aprox. Cosecha</label>
+                <input
+                v-model="form.approximate_date"
+                :disabled="viewOnlly ? true : false"
+                class="form-control"
+                type="date"
+                id="date"
+                required>
+                <div class="invalid-feedback">
+                  Seleccione la fecha Aprox. Cosecha
+                </div>
+              </div>
+
+              <b-form-group v-if="activity_id === 18" id="input-group-projected_amount" label="Cantidad Proyectada de Cosecha:" label-for="input-projected_amount">
+                <b-form-input
+                  id="input-projected_amount"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.projected_amount"
+                  required
+                ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite el Cantidad Proyectada de Cosecha
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 18" id="input-group-potential_buyers" label="Potenciales Compradores:" label-for="input-potential_buyers">
+                <b-form-textarea
+                  id="input-potential_buyers"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.potential_buyers"
+                  rows="3"
+                  max-rows="6"
+                  required
+                ></b-form-textarea>
+                <div class="invalid-feedback">
+                  Digite los Potenciales Compradores
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 4" id="input-group-sown_area" label="Area Sembrada:" label-for="input-sown_area">
+                <b-form-select
+                  id="input-sown_area"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.sown_area"
+                  required>
+                <b-form-select-option :value="null">Seleccionar...</b-form-select-option>
+                <b-form-select-option :value="0">HECTAREAS</b-form-select-option>
+                <b-form-select-option :value="1">FANEGADAS</b-form-select-option>
+                </b-form-select>
+                <div class="invalid-feedback">
+                  Digite el Area Sembrada
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 19" id="input-group-land_tenure" label="Tenencia de Tierra:" label-for="input-land_tenure">
+                <b-form-select
+                  id="input-land_tenure"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.land_tenure"
+                  required>
+                <b-form-select-option :value="null">Seleccionar...</b-form-select-option>
+                <b-form-select-option :value="0">PROPIA</b-form-select-option>
+                <b-form-select-option :value="1">ARRIENDO</b-form-select-option>
+                <b-form-select-option :value="2">ADMINISTRADOR</b-form-select-option>
+                <b-form-select-option :value="3">POSESION</b-form-select-option>
+                <b-form-select-option :value="4">EMPEÑO</b-form-select-option>
+                <b-form-select-option :value="5">OTROS</b-form-select-option>
+                </b-form-select>
+                <div class="invalid-feedback">
+                  Seleccione la Tenencia de Tierra
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 19" id="input-group-total_area" label="Total del Area (Hectareas):" label-for="input-total_area">
+                <b-form-input
+                  id="input-total_area"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.total_area"
+                  required
+                ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite el Total del Area
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 19" id="input-group-score" label="Puntaje de Sisben:" label-for="input-score">
+                <b-form-input
+                  id="input-score"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.score"
+                  required
+                ></b-form-input>
+                <div class="invalid-feedback">
+                  Digite el Puntaje de Sisben
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 19" id="input-group-condition" label="Condición de Vulnerabilidad:" label-for="input-condition">
+                <b-form-select
+                  id="input-condition"
+                  :disabled="viewOnlly ? true : false"
+                  v-model="form.condition"
+                  required>
+                <b-form-select-option :value="null">Seleccionar...</b-form-select-option>
+                <b-form-select-option :value="0">VICTIMA DEL COMNFLICTO ARMADO</b-form-select-option>
+                <b-form-select-option :value="1">CON DISCAPACIDAD( SUBDIVIDIR TIPO DE DISCAPACIDAD)</b-form-select-option>
+                <b-form-select-option :value="2">PERSONAS MAYORES</b-form-select-option>
+                <b-form-select-option :value="3">REPATRIADO</b-form-select-option>
+                <b-form-select-option :value="4">JOVEN ENTRE 18 Y 28 AÑOS</b-form-select-option>
+                <b-form-select-option :value="5">DESPLAZADO</b-form-select-option>
+                <b-form-select-option :value="6">VICTIMA DE TRATA DE PERSONAS</b-form-select-option>
+                <b-form-select-option :value="7">CABEZA DE FAMILIA</b-form-select-option>
+                <b-form-select-option :value="8">POBLACION RURAL DISPERSA	</b-form-select-option>
+                <b-form-select-option :value="9">MUJER RURAL</b-form-select-option>
+                </b-form-select>
+                <div class="invalid-feedback">
+                  Seleccione la Condición de Vulnerabilidad
+                </div>
+              </b-form-group>
+
+              <b-form-group v-if="activity_id === 19" id="input-group-family_nucleus" label="Nucleo Familiar:" label-for="input-family_nucleus">
+                <b-form-tags
+                  :disabled="viewOnlly ? true : false"
+                  class="form-control"
+                  id="input-family_nucleus"
+                  v-model="array_family_nucleus"
+                  separator=" ,;"
+                  remove-on-delete
+                  no-add-on-enter
+                  tag-variant="info"
+                  tag-pills
+                  duplicate-tag-text="Palabra duplicada"
+                  required/>
+                <div class="invalid-feedback">
+                  Digite el Nucleo Familiar
+                </div>
+              </b-form-group>
+
               <b-form-group id="input-group-description" label="Descripción:" label-for="input-description">
                 <b-form-textarea
                   id="input-description"
@@ -278,6 +429,7 @@
                   Digite la descripción
                 </div>
               </b-form-group>
+
               <div
                 v-if="!viewOnlly"
                 class="text-center">
@@ -306,6 +458,7 @@
 export default {
   data() {
     return {
+      activity_id: '',
       tracing_id: '',
       listImages: [],
       form: {
@@ -322,6 +475,16 @@ export default {
         description: null,
         metod: null,
         technical_visit: null,
+        land_tenure: null,
+        total_area: null,
+        condition: null,
+        score: null,
+        family_nucleus: null,
+        approximate_date: null,
+        projected_amount: null,
+        potential_buyers: null,
+        sown_area: null,
+        costs: null
       },
       tittleModal: null,
       viewOnlly: false,
@@ -331,6 +494,7 @@ export default {
       productStatus: false,
       quantityStatus: false,
       showTipo: false,
+      array_family_nucleus: [],
     }
   },
   computed: {
@@ -374,6 +538,7 @@ export default {
         me.viewOnlly = false
         me.tittleModal = 'Editar ' + item.activity.name
       }
+      me.activity_id = item.activity.id
       me.form.id = item.id
       me.form.date_performed = item.date_performed
       me.form.phytosanitary_limitation = item.phytosanitary_limitation
@@ -386,6 +551,17 @@ export default {
       me.form.description = item.description
       me.form.metod = item.metod
       me.form.technical_visit = item.technical_visit
+      me.form.land_tenure = item.land_tenure
+      me.form.total_area = item.total_area
+      me.form.condition = item.condition
+      me.form.score = item.score
+      me.form.approximate_date = item.approximate_date
+      me.form.projected_amount = item.projected_amount
+      me.form.potential_buyers = item.potential_buyers
+      me.form.sown_area = item.sown_area
+      me.form.costs = item.costs
+      me.form.family_nucleus = item.family_nucleus
+      me.array_family_nucleus = item.family_nucleus ? item.family_nucleus.split([',']) : []
       if (item.activity.id === 2) {
         me.showTipo = true
       }else{
@@ -416,6 +592,7 @@ export default {
     hideModal() {
       $('#modal-view').modal('hide')
       this.viewOnlly = false
+      this.array_family_nucleus = []
       this.form = {
         id: null,
         date_performed: null,
@@ -429,11 +606,22 @@ export default {
         description: null,
         metod: null,
         technical_visit: null,
-        description: null
+        description: null,
+        land_tenure: null,
+        total_area: null,
+        condition: null,
+        score: null,
+        approximate_date: null,
+        projected_amount: null,
+        potential_buyers: null,
+        family_nucleus: null,
+        sown_area: null,
+        costs: null
       }
     },
     saveData(evt) {
       evt.preventDefault()
+      this.form.family_nucleus = this.array_family_nucleus.join(',')
       axios.put( `editActivity/${this.form.id}`, this.form)
       .then(res => {
         this.$swal({

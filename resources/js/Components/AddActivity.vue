@@ -78,7 +78,7 @@
               </div>
             </template>
           </div>
-          <div class="form-group col-md-2" v-if="showDescription && !showMV">
+          <div class="form-group col-md-2" v-if="showDescription && !showMV && activity.id != 19">
             <label class="font-weight-bold" for="date">Mano de obra</label>
             <input
               v-model="formActivity.employees"
@@ -92,7 +92,7 @@
               </div>
             </template>
           </div>
-          <div class="form-group col-md-2" v-if="showDescription && !showMV">
+          <div class="form-group col-md-2" v-if="showDescription && !showMV && activity.id != 19">
             <label class="font-weight-bold" for="Metod">Visita Técnica</label>
             <select
               v-model="formActivity.technical_visit"
@@ -153,6 +153,140 @@
               </div>
             </template>
           </div>
+          <div class="form-group col-md-4" v-if="activity.id === 18">
+            <label class="font-weight-bold" for="date">Fecha Aprox. Cosecha</label>
+            <input
+            v-model="formActivity.approximate_date"
+            class="form-control"
+            :class="{'is-invalid': $v.formActivity.approximate_date.$error }"
+            type="date"
+            id="date">
+            <template v-if="$v.formActivity.approximate_date.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.approximate_date.required">
+                Seleccione la Fecha Aprox. Cosecha
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-4" v-if="activity.id === 18">
+            <label class="font-weight-bold" for="input_projected_amount">Cantidad Proyectada de Cosecha </label>
+            <input
+              v-model="formActivity.projected_amount"
+              type="number"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.projected_amount.$error }"
+              id="input_projected_amount">
+            <template v-if="$v.formActivity.projected_amount.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.projected_amount.required">
+                Digite la Cantidad Proyectada de Cosecha
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-12" v-if="activity.id === 18">
+            <label class="font-weight-bold" for="input_potential_buyers">Potenciales Compradores <span class="font-weight-light">(Nombre y Número de Contacto)</span></label>
+            <textarea
+              v-model="formActivity.potential_buyers"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.potential_buyers.$error }"
+              id="input_potential_buyers"
+              cols="12"
+              rows="3">
+            </textarea>
+            <template v-if="$v.formActivity.potential_buyers.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.potential_buyers.required">
+                Digite los Potenciales Compradores
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-4" v-if="activity.id === 19">
+            <label class="font-weight-bold" for="land_tenure">Tenencia de la Tierra</label>
+            <select
+              v-model="formActivity.land_tenure"
+              id="land_tenure"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.land_tenure.$error }">
+              <option selected value="" disabled>Seleccionar...</option>
+              <option selected value="0">PROPIA</option>
+              <option selected value="1">ARRIENDO</option>
+              <option selected value="2">ADMINISTRADOR</option>
+              <option selected value="3">POSESION</option>
+              <option selected value="4">EMPEÑO</option>
+              <option selected value="5">OTROS</option>
+            </select>
+            <template v-if="$v.formActivity.land_tenure.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.land_tenure.required">
+                Seleccione la Tenencia de la Tierra
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-2" v-if="activity.id === 19">
+            <label class="font-weight-bold" for="inputTotal_area">Area Total <span class="font-weight-light">(Hectareas)</span></label>
+            <input
+              v-model="formActivity.total_area"
+              type="number"
+              @input="formActivity.total_area = $event.target.value.toUpperCase()"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.total_area.$error }"
+              id="inputTotal_area">
+            <template v-if="$v.formActivity.total_area.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.total_area.required">
+                Digite el Area Total
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-2" v-if="activity.id === 19">
+            <label class="font-weight-bold" for="inputscore">Puntaje de Sisben </label>
+            <input
+              v-model="formActivity.score"
+              type="number"
+              @input="formActivity.score = $event.target.value.toUpperCase()"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.score.$error }"
+              id="inputscore">
+            <template v-if="$v.formActivity.score.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.score.required">
+                Digite el Puntaje de Sisben
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-5" v-if="activity.id === 19">
+            <label class="font-weight-bold" for="condition">Condición de Vulnerabilidad</label>
+            <select
+              v-model="formActivity.condition"
+              id="condition"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.condition.$error }">
+              <option selected value="" disabled>Seleccionar...</option>
+              <option selected value="0">VICTIMA DEL COMNFLICTO ARMADO</option>
+              <option selected value="1">CON DISCAPACIDAD( SUBDIVIDIR TIPO DE DISCAPACIDAD)</option>
+              <option selected value="2">PERSONAS MAYORES</option>
+              <option selected value="3">REPATRIADO</option>
+              <option selected value="4">JOVEN ENTRE 18 Y 28 AÑOS</option>
+              <option selected value="5">DESPLAZADO</option>
+              <option selected value="6">VICTIMA DE TRATA DE PERSONAS</option>
+              <option selected value="7">CABEZA DE FAMILIA</option>
+              <option selected value="8">POBLACION RURAL DISPERSA	</option>
+              <option selected value="9">MUJER RURAL</option>
+            </select>
+            <template v-if="$v.formActivity.condition.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.condition.required">
+                Seleccione la Condición de Vulnerabilidad
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-7" v-if="activity.id === 19">
+            <label class="font-weight-bold" for="family_nucleus">Nucleo Familiar </label>
+            <b-form-tags
+              class="form-control tags-custom"
+              id="family_nucleus"
+              v-model="array_family_nucleus"
+              separator=" ,;"
+              remove-on-delete
+              no-add-on-enter
+              tag-variant="info"
+              tag-pills
+              placeholder="Agregar..."
+              duplicate-tag-text="Palabra duplicada"/>
+          </div>
           <div class="form-group col-md-2" v-if="quantityStatus">
             <label class="font-weight-bold" for="inputquantity">Total Producto <span class="font-weight-light">{{activity.quantity_unity ? `(${activity.quantity_unity})` : ''}}</span></label>
             <input
@@ -164,6 +298,37 @@
             <template v-if="$v.formActivity.quantity.$error">
               <div class="invalid-feedback" v-if="!$v.formActivity.quantity.required">
                 Digite la Cantidad Total
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-2" v-if="activity.id === 4">
+            <label class="font-weight-bold" for="inputsown_area">Area Sembrada </label>
+            <select
+              v-model="formActivity.sown_area"
+              id="inputsown_area"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.sown_area.$error }">
+              <option selected value="" disabled>Seleccionar...</option>
+              <option selected value="0">HECTAREAS</option>
+              <option selected value="1">FANEGADAS</option>
+            </select>
+            <template v-if="$v.formActivity.sown_area.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.sown_area.required">
+                Digite el Area Sembrada
+              </div>
+            </template>
+          </div>
+          <div class="form-group col-md-2" v-if="showDescription">
+            <label class="font-weight-bold" for="inputcosts">Costos <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="Sumatoria de todo utilizado (insumos, mano de obra, etc...); valor total de los costos de esta actividad en pesos colombianos">?</span></label>
+            <input
+              v-model="formActivity.costs"
+              type="number"
+              class="form-control"
+              :class="{'is-invalid': $v.formActivity.costs.$error }"
+              id="inputcosts">
+            <template v-if="$v.formActivity.costs.$error">
+              <div class="invalid-feedback" v-if="!$v.formActivity.costs.required">
+                Digite los Costos
               </div>
             </template>
           </div>
@@ -243,7 +408,18 @@ export default {
         technical_visit: '',
         tracing_id: this.tracingId,
         activity_id: '',
+        approximate_date: '',
+        projected_amount: '',
+        potential_buyers: '',
+        land_tenure: '',
+        total_area: '',
+        condition: '',
+        score: '',
+        family_nucleus: '',
+        sown_area: '',
+        costs: '',
       },
+      array_family_nucleus: [],
       activity: '',
       showDescription: false,
       doseStatus: false,
@@ -274,11 +450,56 @@ export default {
           },
           description: {
             required,
+          },
+          approximate_date: {
+            required,
+          },
+          projected_amount: {
+            required,
+          },
+          potential_buyers: {
+            required,
+          },
+          costs: {
+            required,
           }
         }
       }
       return formActivity
-    } else {
+    } else if (this.activity.id === 19) {
+      let formActivity = {
+        formActivity: {
+          date_performed: {
+            required
+          },
+          tracing_id: {
+            required,
+          },
+          activity_id: {
+            required,
+          },
+          description: {
+            required,
+          },
+          land_tenure: {
+            required,
+          },
+          total_area: {
+            required,
+          },
+          condition: {
+            required,
+          },
+          score: {
+            required,
+          },
+          costs: {
+            required,
+          }
+        }
+      }
+      return formActivity
+    } else if (this.activity.id === 4) {
       let formActivity = {
         formActivity: {
           date_performed: {
@@ -297,6 +518,55 @@ export default {
             required,
           },
           technical_visit: {
+            required,
+          },
+          product: {
+            required,
+          },
+          dose: {
+            required,
+          },
+          dose_type: {
+            required,
+          },
+          quantity: {
+            required,
+          },
+          measure_type: {
+            required,
+          },
+          costs: {
+            required,
+          },
+          sown_area: {
+            required,
+          }
+        }
+      }
+      return formActivity
+    }
+    else {
+      let formActivity = {
+        formActivity: {
+          date_performed: {
+            required
+          },
+          employees:{
+            required,
+          },
+          tracing_id: {
+            required,
+          },
+          activity_id: {
+            required,
+          },
+          description: {
+            required,
+          },
+          technical_visit: {
+            required,
+          },
+          costs: {
             required,
           }
         }
@@ -422,10 +692,10 @@ export default {
     }
   },
   watch: {
-    /* cuando la variable sea afectada o tenga algun cambio ejecuta el proceso */
-    /* tracingId(){
-      this.formActivity.tracing_id = this.tracingId
-    } */
+    array_family_nucleus() {
+      //console.log(this.array_family_nucleus)
+      this.formActivity.family_nucleus = this.array_family_nucleus.join(',')
+    }
   },
   methods: {
     updateImageList(file){
@@ -479,7 +749,6 @@ export default {
       if (!this.$v.$invalid) {
         me.isCreatingPost = true
         let formData = new FormData()
-
         formData.append('date_performed' , me.formActivity.date_performed)
         formData.append('phytosanitary_limitation' , me.formActivity.phytosanitary_limitation)
         formData.append('employees', me.formActivity.employees)
@@ -493,6 +762,16 @@ export default {
         formData.append('technical_visit', me.formActivity.technical_visit)
         formData.append('tracing_id' , me.formActivity.tracing_id)
         formData.append('activity_id', me.formActivity.activity_id)
+        formData.append('land_tenure', me.formActivity.land_tenure)
+        formData.append('total_area', me.formActivity.total_area)
+        formData.append('condition' , me.formActivity.condition)
+        formData.append('score', me.formActivity.score)
+        formData.append('family_nucleus', me.formActivity.family_nucleus)
+        formData.append('approximate_date' , me.formActivity.approximate_date)
+        formData.append('projected_amount', me.formActivity.projected_amount)
+        formData.append('potential_buyers', me.formActivity.potential_buyers)
+        formData.append('sown_area', me.formActivity.sown_area)
+        formData.append('costs', me.formActivity.costs)
 
         $.each(me.formActivity.imageList, function(key, image){
           formData.append(`images[${key}]`, image)
@@ -594,6 +873,16 @@ export default {
       this.formActivity.metod = ''
       this.formActivity.tracing_id = ''
       this.formActivity.activity_id = ''
+      this.formActivity.approximate_date = ''
+      this.formActivity.projected_amount = ''
+      this.formActivity.potential_buyers = ''
+      this.formActivity.land_tenure = ''
+      this.formActivity.condition = ''
+      this.formActivity.score = ''
+      this.formActivity.total_area = ''
+      this.formActivity.family_nucleus = ''
+      this.formActivity.sown_area = ''
+      this.formActivity.costs = ''
     }
   }
 }
@@ -637,5 +926,8 @@ export default {
   }
   .el-upload-list--picture-card .el-upload-list__item{
     margin: 0 8px 0 0;
+  }
+  .tags-custom {
+    max-height: 37.03px;
   }
 </style>

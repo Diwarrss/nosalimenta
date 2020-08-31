@@ -27,7 +27,17 @@ class DevelopedActivitie extends Model
       'metod',
       'technical_visit',
       'tracing_id',
-      'activity_id'
+      'activity_id',
+      'land_tenure',
+      'total_area',
+      'condition',
+      'score',
+      'family_nucleus',
+      'approximate_date',
+      'projected_amount',
+      'potential_buyers',
+      'sown_area',
+      'costs'
     ];
     /**
      * The attributes that aren't mass assignable.
