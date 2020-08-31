@@ -168,7 +168,7 @@
             </template>
           </div>
           <div class="form-group col-md-4" v-if="activity.id === 18">
-            <label class="font-weight-bold" for="input_projected_amount">Cantidad Proyectada de Cosecha </label>
+            <label class="font-weight-bold" for="input_projected_amount">Cantidad Proyectada de Cosecha <span class="font-weight-light">(Hectáreas)</span></label>
             <input
               v-model="formActivity.projected_amount"
               type="number"
@@ -274,7 +274,9 @@
             </template>
           </div>
           <div class="form-group col-md-7" v-if="activity.id === 19">
-            <label class="font-weight-bold" for="family_nucleus">Nucleo Familiar </label>
+            <label class="font-weight-bold" for="family_nucleus">Nucleo Familiar
+              <span class="font-weight-light">(Mamá, Papá, Hijos, Nietos (as), Tíos (as),  Abuelo (a), Madrastra, Padrastro, Primo (a), Otros)</span>
+            </label>
             <b-form-tags
               class="form-control tags-custom"
               id="family_nucleus"
@@ -319,7 +321,8 @@
             </template>
           </div>
           <div class="form-group col-md-2" v-if="showDescription">
-            <label class="font-weight-bold" for="inputcosts">Costos <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="Sumatoria de todo utilizado (insumos, mano de obra, etc...); valor total de los costos de esta actividad en pesos colombianos">?</span></label>
+            <label class="font-weight-bold" for="inputcosts">Costos
+              <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="Sumatoria de todo utilizado (insumos, mano de obra, etc...); valor total de los costos de esta actividad en pesos colombianos">Mas Info...</span></label>
             <input
               v-model="formActivity.costs"
               type="number"

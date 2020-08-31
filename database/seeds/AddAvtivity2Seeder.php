@@ -14,7 +14,7 @@ class AddAvtivity2Seeder extends Seeder
     {
       DB::table('activities')->insert([
         [
-          'name' => 'INFORMACION SOCIOECONOMICA',
+          'name' => 'INFORMACIÓN SOCIOECONÓMICA',
           'dose_unity' => '',
           'quantity_unity' => '',
           'phytosanitary_limitation_status' => false,
