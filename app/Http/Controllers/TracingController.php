@@ -129,4 +129,27 @@ class TracingController extends Controller
     {
         //
     }
+
+    //download XLSX
+    public function export()
+    {
+      if (Auth::user()->rol_id === 1) {
+        return Tracing::Join ('municipalities', 'tracings.municipality_id', '=', 'municipalities.id')
+                      ->Join ('users', 'tracings.user_id', '=', 'users.id')
+                      ->Join ('provinces', 'municipalities.province_id', '=', 'provinces.id')
+                      ->select('tracings.id as ID', 'users.name as Encargado', 'provinces.name as Provincia', 'municipalities.name as Municipio', 'tracings.zone as Vereda', 'tracings.producer as Productor', 'tracings.identification as Cedula', 'tracings.phone as Celular')
+                      ->get();
+      }
+      return Tracing::Join ('municipalities', 'tracings.municipality_id', '=', 'municipalities.id')
+                    ->Join ('users', 'tracings.user_id', '=', 'users.id')
+                    ->select('tracings.id as ID', 'users.name as Encargado', 'provinces.name as Provincia', 'municipalities.name as Municipio', 'tracings.zone as Vereda', 'tracings.producer as Productor', 'tracings.identification as Cedula', 'tracings.phone as Celular')
+                    ->where('user_id', Auth::user()->id)
+                    ->get();
+      /* return EntryFiling::with(
+        'dependences',
+        'People:id,names'
+        )
+        ->where('state', 1)
+        ->whereBetween('created_at', [$request->fromDate, $request->toDate]); */
+    }
 }
